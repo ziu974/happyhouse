@@ -16,13 +16,7 @@
     </b-row>
     <b-row class="mb-1">
       <b-col>
-        <b-card
-          :header-html="`<h3>${question.no}.
-          ${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`"
-          class="mb-2"
-          border-variant="dark"
-          no-body
-        >
+        <b-card :header-html="`<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`" class="mb-2" border-variant="dark" no-body>
           <b-card-body class="text-left">
             <div v-html="message"></div>
           </b-card-body>
@@ -46,7 +40,13 @@ export default {
   name: "QnaView",
   data() {
     return {
-      question: null,
+      question: {
+        no: 0,
+        subject: "",
+        hit: "",
+        userid: "",
+        content: "",
+      },
       answers: [],
       isModifyShow: false,
       modifyAnswer: Object,
@@ -71,11 +71,10 @@ export default {
   created() {
     http.get(`/qna/${this.$route.params.no}`).then(({ data }) => {
       this.question = data;
-      console.log(this.question.no);
       http
-        .get(`/qna/answer`, { qnano: this.question.no })
+        .get(`/qna/answer/${data.no}`)
         .then((data) => {
-          this.answers = data;
+          this.answers = data.data;
         })
         .catch((error) => {
           console.log(error);

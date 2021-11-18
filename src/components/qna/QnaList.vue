@@ -44,7 +44,6 @@ export default {
       .then(({ data }) => {
         // console.log(data);
         if (data === "") {
-          console.log("skldjf");
           this.posts = [{ no: "1", subject: "글번호", userid: "tdClass", regtime: "234", hit: "12" }];
         } else {
           this.posts = data;

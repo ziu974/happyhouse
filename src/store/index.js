@@ -1,11 +1,22 @@
 import Vue from "vue";
 import Vuex from "vuex";
+// TODO 이거 modules로 빼자
 import http from "@/util/http-common.js";
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
+import memberStore from "@/store/modules/memberStore.js";
+import boardStore from "@/store/modules/boardStore.js";
+import houseStore from "@/store/modules/houseStore.js";
+
 export default new Vuex.Store({
+  // ! 이렇게 modules로 나눠놓음(규모가 커지면 유지보수하기가 불편해지기 때문에)
+  modules: {
+    memberStore,
+    boardStore,
+    houseStore,
+  },
   state: {
     account: null,
     // 비동기 통신으로 받아온 데이터 역시 vuex의 state에서 관리해야 된다
@@ -49,30 +60,25 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    postLogin({ commit }, user) {
-      http
-        .post("/user/login", {
-          userid: user.userid,
-          userpwd: user.userpwd,
-        })
-        .then((response) => {
-          commit("SET_LOGGEDIN_ACCOUNT", response);
-          let msg = "NOPE";
-          console.log(response);
-          if (response.data.userid) {
-            msg = "안녕하세요 *" + response.data.name + "*님";
-          }
-          alert(msg);
-          this.movePage();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    // getUserAccount({ commit }) {
-
-    //   console.log(commit);
-    //   // http.get("/");
+    // postLogin({ commit }, user) {
+    //   http
+    //     .post("/user/login", {
+    //       userid: user.userid,
+    //       userpwd: user.userpwd,
+    //     })
+    //     .then((response) => {
+    //       commit("SET_LOGGEDIN_ACCOUNT", response);
+    //       let msg = "NOPE";
+    //       console.log(response);
+    //       if (response.data.userid) {
+    //         msg = "안녕하세요 *" + response.data.name + "*님";
+    //       }
+    //       alert(msg);
+    //       this.movePage();
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
     // },
     // 비동기통신은 vuex의 acitons에서 처리해야 된다
     getSido({ commit }) {
@@ -129,8 +135,12 @@ export default new Vuex.Store({
       commit("SET_DETAIL_HOUSE", house);
     },
   },
-  modules: {},
   //* https://www.npmjs.com/package/vuex-persistedstate
   //? 새로고침을 해도 localStorage에 정보가 저장되게-> 단, 너무 많은 데이터를 담을 경우 보안문제, 부하 문제 있을 수 있음 (option사용해서 저장할 것들 지정하기)
-  plugins: [createPersistedState()],
+  plugins: [
+    createPersistedState({
+      // 브라우저 종료시 제거하기 위해 localStorage가 아닌 sessionStorage로 변경. (default: localStorage)
+      storage: sessionStorage,
+    }),
+  ],
 });

@@ -1,9 +1,9 @@
 <template>
   <div v-show="isShow" class="comment">
-    <div class="head">{{ comment.user_name }} ({{ comment.comment_time }})</div>
-    <div class="content" v-html="enterToBr(comment.comment)"></div>
+    <div class="head">{{ answer.userid }} ({{ answer.regtime }})</div>
+    <div class="content" v-html="enterToBr(answer.content)"></div>
     <!-- 로그인 기능 구현 후 로그인한 자신의 글에만 보이게 한다. -->
-    <div class="cbtn"><label @click="modifyCommentView">수정</label> | <label @click="deleteComment">삭제</label></div>
+    <div class="cbtn"><label @click="modifyAnswerView">수정</label> | <label @click="deleteAnswer">삭제</label></div>
   </div>
 </template>
 
@@ -11,40 +11,41 @@
 import http from "@/util/http-common";
 
 export default {
-  name: "comment",
+  name: "Answer",
   data() {
     return {
-      isShow: true
+      isShow: true,
     };
   },
   props: {
-    comment: Object
+    answer: Object,
   },
   methods: {
-    modifyCommentView() {
+    modifyAnswerView() {
+      console.log("여기 고쳐야됨");
       this.$emit("modify-comment", {
-        comment_no: this.comment.comment_no,
-        comment: this.comment.comment,
-        isbn: this.comment.isbn
+        no: this.answer.no,
+        content: this.answer.content,
+        // isbn: this.anwer.isbn
       });
     },
-    deleteComment() {
-      if (confirm("정말로 삭제?")) {
-        http.delete(`/comment/${this.comment.comment_no}`).then(({ data }) => {
+    deleteAnswer() {
+      if (confirm("댓글을 정말로 삭제하시겠습니까?")) {
+        http.delete(`/qna/answer/${this.answer.no}`).then(({ data }) => {
           let msg = "삭제 처리시 문제가 발생했습니다.";
           if (data === "success") {
             msg = "삭제가 완료되었습니다.";
           }
           alert(msg);
           // 도서평(댓글) 얻기.
-          this.$store.dispatch("getComments", `/comment/${this.comment.isbn}`);
+          // TODO 이부분 구현해야됨 (댓글 다시 받아오기)
         });
       }
     },
     enterToBr(str) {
       if (str) return str.replace(/(?:\r\n|\r|\n)/g, "<br />");
-    }
-  }
+    },
+  },
 };
 </script>
 

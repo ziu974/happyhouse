@@ -1,13 +1,13 @@
 <template>
   <div class="regist">
     <div v-if="this.modifyAnswer != null" class="regist_form">
-      <textarea id="answer" name="answer" v-model="modifyAnswer.answer" cols="35" rows="2"></textarea>
+      <textarea id="answer" name="answer" v-model="modifyAnswer.content" cols="35" rows="2"></textarea>
       <button class="small" @click="updateAnswerCancel">취소</button>
       <button class="small" @click="updateAnswer">수정</button>
     </div>
     <div v-else class="regist_form">
-      <textarea id="answer" name="answer" v-model="answer" cols="35" rows="2"></textarea>
-      <button @click="registAnswer">등록</button>
+      <textarea id="answer" name="answer" v-model="content" cols="35" rows="2"></textarea>
+      <b-button @click="registAnswer">등록</b-button>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
       // 차후 작성자 이름은 로그인 구현후 로그인한 사용자로 바꾼다.
       // userid: this.account.userid,
       userid: "ssafy",
-      answer: "",
+      content: "",
     };
   },
   props: {
@@ -36,9 +36,9 @@ export default {
   methods: {
     registAnswer() {
       http
-        .post("/answer/", {
+        .post("/qna/answer/", {
           userid: this.userid,
-          answer: this.answer,
+          content: this.content,
           qnano: this.qnano,
         })
         .then(({ data }) => {
@@ -52,14 +52,14 @@ export default {
           this.answer = "";
 
           // 도서평(댓글) 얻기.
-          this.$store.dispatch("getAnswers", `/answer/${this.qnano}`);
+          this.$store.dispatch("getAnswers", `/qna/answer/${this.qnano}`);
         });
     },
     updateAnswer() {
       http
-        .put(`/answer`, {
+        .put(`/qna/answer`, {
           no: this.modifyAnswer.no,
-          answer: this.modifyAnswer.answer,
+          content: this.modifyAnswer.content,
         })
         .then(({ data }) => {
           let msg = "수정 처리시 문제가 발생했습니다.";
@@ -69,7 +69,7 @@ export default {
           alert(msg);
 
           // 도서평(댓글) 얻기.
-          this.$store.dispatch("getAnswers", `/answer/${this.modifyAnswer.isbn}`);
+          this.$store.dispatch("getAnswers", `/qna/answer/${this.modifyAnswer.no}`);
           this.$emit("modify-answer-cancel", false);
         });
     },

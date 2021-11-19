@@ -41,7 +41,7 @@
             <b-dropdown-item href="#"
               ><router-link :to="{ name: 'SignUp' }" class="link"><b-icon icon="person-circle"></b-icon> 회원가입</router-link></b-dropdown-item
             >
-            <div v-show="isLogin">
+            <div v-if="isLogin">
               <b-dropdown-item href="#">
                 <router-link :to="{ name: 'SignIn' }" class="link"><b-icon icon="key"></b-icon> 로그인</router-link>
               </b-dropdown-item>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const memberStore = "memberStore";
 
@@ -64,12 +64,14 @@ export default {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
   },
   methods: {
-    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapActions(memberStore, ["logout"]),
+    // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
-      this.SET_IS_LOGIN(false);
-      this.SET_USER_INFO(null);
-      sessionStorage.removeItem("access-token");
-      if (this.$route.path != "/") this.$router.push({ name: "Home" });
+      this.logout();
+      //   this.SET_IS_LOGIN(false);
+      //   this.SET_USER_INFO(null);
+      //   sessionStorage.removeItem("access-token");
+      //   if (this.$route.path != "/") this.$router.push({ name: "Home" });
     },
   },
 };

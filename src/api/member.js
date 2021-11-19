@@ -12,6 +12,19 @@ async function findById(userid, success, fail) {
   await api.get(`/user/info/${userid}`).then(success).catch(fail);
 }
 
+async function modifyInfo(userInfo, success, fail) {
+  await api.put(`/user`, JSON.stringify(userInfo)).then(success).catch(fail);
+}
+
+async function deleteId(userid, success, fail) {
+  await api.delete(`/user/${userid}`).then(success).catch(fail);
+}
+
+async function createId(userInfo, success, fail) {
+  console.log(userInfo);
+  await api.post(`/user/register`, JSON.stringify(userInfo)).then(success).catch(fail);
+}
+
 // function logout(success, fail)
 
-export { login, findById };
+export { login, findById, modifyInfo, deleteId, createId };

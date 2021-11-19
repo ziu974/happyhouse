@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     modifyAnswerView() {
+      // TODO
       console.log("여기 고쳐야됨");
       this.$emit("modify-comment", {
         no: this.answer.no,

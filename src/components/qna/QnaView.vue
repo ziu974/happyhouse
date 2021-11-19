@@ -24,9 +24,9 @@
       </b-col>
     </b-row>
     <div>
-      <answer-write :qnano="this.question.no" />
-      <answer-write v-if="isModifyShow && this.modifyAnswer != null" :modifyAnswer="this.modifyAnswer" @modify-answer-cancel="onModifyAnswerCancel" />
-      <answer v-for="(answer, index) in answers" :key="index" :answer="answer" @modify-answer="onModifyAnswer" />
+      <answer-write :qnano="this.question.no" @create-answer="onCreateAnswer" />
+      <!-- <answer-write v-if="isModifyShow && this.modifyAnswer != null" :modifyAnswer="this.modifyAnswer" @modify-answer-cancel="onModifyAnswerCancel" /> -->
+      <answer v-for="(answer, index) in answers" :key="index" :answer="answer" @update-answer-list="getAnswerList(answer.qnano)" />
     </div>
   </b-container>
 </template>
@@ -48,7 +48,7 @@ export default {
         content: "",
       },
       answers: [],
-      isModifyShow: false,
+      // isModifyShow: false,
       modifyAnswer: Object,
     };
   },
@@ -71,14 +71,15 @@ export default {
   created() {
     http.get(`/qna/${this.$route.params.no}`).then(({ data }) => {
       this.question = data;
-      http
-        .get(`/qna/answer/${data.no}`)
-        .then((data) => {
-          this.answers = data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.getAnswerList(data.no);
+      // http
+      //   .get(`/qna/answer/${data.no}`)
+      //   .then((data) => {
+      //     this.answers = data.data;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     });
   },
   methods: {
@@ -91,6 +92,16 @@ export default {
         params: { no: this.question.no },
       });
     },
+    getAnswerList(qnano) {
+      http
+        .get(`/qna/answer/${qnano}`)
+        .then((data) => {
+          this.answers = data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     deleteQnaPost() {
       if (confirm("정말로 삭제?")) {
         this.$router.replace({
@@ -99,13 +110,19 @@ export default {
         });
       }
     },
-    onModifyAnswer(answer) {
-      this.modifyyAnswer = answer;
-      this.isModifyShow = true;
+    onCreateAnswer() {
+      this.isModifyShow = false;
+      this.getAnswerList(this.question.no);
     },
-    onModifyyAnswerCancel(isShow) {
-      this.isModifyShow = isShow;
-    },
+    // onModifyAnswer(answer) {
+    // this.modifyAnswer = answer;
+    // this.isModifyShow = true;
+    //   this.getAnswerList(this.question.no);
+    // },
+    // onModifyAnswerCancel(isShow) {
+    // this.isModifyShow = isShow;
+    //   this.getAnswerList(this.question.no);
+    // },
   },
 };
 </script>

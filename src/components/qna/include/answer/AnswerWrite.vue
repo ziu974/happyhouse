@@ -1,12 +1,12 @@
 <template>
   <div class="regist">
     <div v-if="this.modifyAnswer != null" class="regist_form">
-      <textarea id="answer" name="answer" v-model="modifyAnswer.content" cols="35" rows="2"></textarea>
-      <button class="small" @click="updateAnswerCancel">취소</button>
-      <button class="small" @click="updateAnswer">수정</button>
+      <b-textarea id="answer" name="answer" v-model="modifyAnswer.content" cols="35" rows="2"></b-textarea>
+      <b-button class="small" @click="updateAnswerCancel">취소</b-button>
+      <b-button class="small" @click="updateAnswer">수정</b-button>
     </div>
     <div v-else class="regist_form">
-      <textarea id="answer" name="answer" v-model="content" cols="35" rows="2"></textarea>
+      <b-textarea id="answer" name="answer" v-model="content" cols="35" rows="2"></b-textarea>
       <b-button @click="registAnswer">등록</b-button>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
           this.answer = "";
 
           // 도서평(댓글) 얻기.
-          this.$store.dispatch("getAnswers", `/qna/answer/${this.qnano}`);
+          this.$emit("create-answer");
         });
     },
     updateAnswer() {
@@ -69,12 +69,11 @@ export default {
           alert(msg);
 
           // 도서평(댓글) 얻기.
-          this.$store.dispatch("getAnswers", `/qna/answer/${this.modifyAnswer.no}`);
-          this.$emit("modify-answer-cancel", false);
+          this.$emit("modify-answer-finish", true); // 2번쨰 파라미터: 서버에서 댓글리스트 갱신 필요여부
         });
     },
     updateAnswerCancel() {
-      this.$emit("modify-answer-cancel", false);
+      this.$emit("modify-answer-finish", false);
     },
   },
 };

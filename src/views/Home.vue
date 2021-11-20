@@ -1,14 +1,11 @@
 <template>
   <b-container class="bv-example-row mt-3 text-center">
+    <b-img id="home-img" min-width="100vw" src="https://images.unsplash.com/photo-1633113088942-99089f4abffa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
     <h3 class="underline-steelblue"><b-icon icon="house"></b-icon> SSAFY</h3>
     <b-row>
       <b-col></b-col>
       <b-col cols="10">
-        <b-jumbotron
-          bg-variant="muted"
-          text-variant="dark"
-          border-variant="dark"
-        >
+        <b-jumbotron bg-variant="muted" text-variant="dark" border-variant="dark">
           <template #header>SSAFY Home</template>
 
           <template #lead>
@@ -39,12 +36,11 @@ export default {
 </script>
 
 <style scoped>
+#home-img {
+  width: 100%;
+}
 .underline-steelblue {
   display: inline-block;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 70%,
-    rgba(72, 190, 233, 0.3) 30%
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, rgba(72, 190, 233, 0.3) 30%);
 }
 </style>

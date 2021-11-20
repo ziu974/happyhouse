@@ -15,6 +15,8 @@
         <b-table striped hover :items="posts" :fields="fields" @row-clicked="moveView"> </b-table>
       </b-col>
     </b-row>
+    <!-- Pagination 적용 부분 -->
+    <b-pagination v-model="currentPage" :total-rows="totalCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick"></b-pagination>
   </b-container>
 </template>
 
@@ -36,24 +38,48 @@ export default {
         { key: "regtime", label: "작성일", tdClass: "tdClass" },
         { key: "hit", label: "조회수", tdClass: "tdClass" },
       ],
+      // pagination 관련
+      perPage: 10,
+      currentPage: 1,
+      start: 0,
+      totalCount: 0,
     };
   },
   created() {
-    http
-      .get(`/qna`)
-      .then(({ data }) => {
-        // console.log(data);
-        if (data === "") {
-          this.posts = [{ no: "1", subject: "글번호", userid: "tdClass", regtime: "234", hit: "12" }];
-        } else {
-          this.posts = data;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.getList();
+    //   http
+    //     .get(`/qna`)
+    //     .then(({ data }) => {
+    //       // console.log(data);
+    //       if (data === "") {
+    //         this.posts = [{ no: "1", subject: "글번호", userid: "tdClass", regtime: "234", hit: "12" }];
+    //       } else {
+    //         this.posts = data;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
   },
   methods: {
+    getList() {
+      http
+        .get(`/qna`, { key: "subject", pg: this.currentPage, spp: this.perPage, start: this.start, word: "" })
+        .then(({ data }) => {
+          console.log(data);
+          if (data === "") {
+            // 글 없을 떄
+            this.posts = [{ no: "1", subject: "글번호", userid: "tdClass", regtime: "234", hit: "12" }];
+          } else {
+            this.totalCount = data.total;
+            this.posts = data.list;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // this.getBoardList({ key: "subject", pg: this.currentPage, spp: this.perPage, start: this.start, word: "" });
+    },
     moveWrite() {
       this.$router.push({ name: "QnaWrite" });
     },
@@ -62,6 +88,10 @@ export default {
         name: "QnaView",
         params: { no: post.no },
       });
+    },
+    pageClick: function (button, page) {
+      this.currentPage = page;
+      this.getList();
     },
   },
 };

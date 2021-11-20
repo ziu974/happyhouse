@@ -10,12 +10,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import QuestionWriteForm from "./include/QuestionWriteForm.vue";
 
 export default {
   name: "QnaUpdate",
   components: {
     QuestionWriteForm,
+  },
+  computed: {
+    ...mapState("memberStore", ["userInfo"]),
   },
 };
 </script>

@@ -29,8 +29,8 @@
         </b-table-simple>
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
-      <!-- Pagination 적용 부분 -->
     </b-row>
+    <!-- Pagination 적용 부분 -->
     <b-pagination v-model="currentPage" :total-rows="boardCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick"></b-pagination>
   </b-container>
 </template>

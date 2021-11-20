@@ -10,8 +10,8 @@
         <b-button variant="outline-primary" @click="moveQnaList">질문 목록</b-button>
       </b-col>
       <b-col class="text-right">
-        <b-button variant="outline-info" size="sm" @click="moveQnaUpdate" class="mr-2">글수정</b-button>
-        <b-button variant="outline-danger" size="sm" @click="deleteQnaPost">글삭제</b-button>
+        <b-button variant="outline-info" size="sm" @click="moveQnaUpdate" class="mr-2" :disabled="!isWriterId">글수정</b-button>
+        <b-button variant="outline-danger" size="sm" @click="deleteQnaPost" :disabled="!isAdminId && !isWriterId">글삭제</b-button>
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import http from "@/util/http-common";
 import AnswerWrite from "@/components/qna/include/answer/AnswerWrite.vue";
 import Answer from "@/components/qna/include/answer/Answer.vue";
@@ -50,9 +51,12 @@ export default {
       answers: [],
       // isModifyShow: false,
       modifyAnswer: Object,
+      isWriterId: false,
+      isQualifiedId: false,
     };
   },
   computed: {
+    ...mapState("memberStore", ["userInfo"]),
     message() {
       if (this.question.content) return this.question.content.split("\n").join("<br>");
       return "";
@@ -81,6 +85,11 @@ export default {
       //     console.log(error);
       //   });
     });
+
+    //* 수정: 작성자id
+    //* 삭제: 작성자id, 관리자id(admin)
+    this.isWriterId = this.userInfo.userid === this.question.userid;
+    this.isAdminId = this.userInfo.userid === "admin";
   },
   methods: {
     moveQnaList() {

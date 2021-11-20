@@ -2,15 +2,15 @@
   <b-row class="mb-1">
     <b-col style="text-align: left">
       <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="userid-group" label="작성자:" label-for="userid" description="작성자를 입력하세요.">
-          <b-form-input id="userid" :disabled="isUserid" v-model="question.userid" type="text" required placeholder="작성자 입력..."></b-form-input>
+        <b-form-group id="userid-group" label="작성자:" label-for="userid">
+          <b-form-input id="userid" :disabled="true" v-model="userid" type="text" required placeholder="작성자 입력..."></b-form-input>
         </b-form-group>
 
         <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
           <b-form-input id="subject" v-model="question.subject" type="text" required placeholder="제목 입력..."></b-form-input>
         </b-form-group>
 
-        <b-form-group id="content-group" label="내용:" label-for="content">
+        <b-form-group id="content-group" label="내용:" label-for="content" description="내용을 입력하세요.">
           <b-form-textarea id="content" v-model="question.content" placeholder="내용 입력..." rows="10" max-rows="15"></b-form-textarea>
         </b-form-group>
 
@@ -49,6 +49,7 @@ export default {
         // this.article.subject = data.article.subject;
         // this.article.content = data.article.content;
         this.question = data;
+        this.userid = this.question.userid;
       });
       this.isUserid = true;
     }

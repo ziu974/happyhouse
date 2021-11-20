@@ -5,6 +5,7 @@ const houseStore = {
   // ? store를 여러개로 분리를 했기 때문에 namespace를 설정해서 구분할 수 있어야 됨 (index.js가 사용)
   namespaced: true,
   state: {
+    // 비동기 통신으로 받아온 데이터 역시 vuex의 state에서 관리해야 된다
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
     houses: [],
@@ -14,32 +15,38 @@ const houseStore = {
   getters: {},
 
   mutations: {
-    SET_SIDO_LIST: (state, sidos) => {
+    // ? Mutations: 첫번째 인자값: state (상태변경해야되니까), 두번쨰 인자값: data (넘어오게 되는, payload에 해당)
+    SET_SIDO_LIST(state, sidos) {
       sidos.forEach((sido) => {
+        //  받아온 데이터를 bootstrap-vue의 form-select의 형식에 맞게 넣어준다
+        // (여기에선 this가 아니라, vuex의 state여야 되므로 "state.")
         state.sidos.push({ value: sido.sidoCode, text: sido.sidoName });
       });
     },
-    SET_GUGUN_LIST: (state, guguns) => {
+    SET_GUGUN_LIST(state, guguns) {
       guguns.forEach((gugun) => {
+        // ".data" 배치 다르게 해봄
         state.guguns.push({ value: gugun.gugunCode, text: gugun.gugunName });
+        //? BUT, 선택지에 계속 추가가 되는 것을 볼 수 있음 -> CLEAR_GUGUN_LIST mutation
       });
     },
-    CLEAR_SIDO_LIST: (state) => {
+    CLEAR_SIDO_LIST(state) {
       state.sidos = [{ value: null, text: "선택하세요" }];
     },
-    CLEAR_GUGUN_LIST: (state) => {
-      state.guguns = [{ value: null, text: "선택하세요" }];
+    CLEAR_GUGUN_LIST(state) {
+      //! 이 mutation의 호출 (HouseSearchBar.vue의 methods.gugunList()부분을 보자)
+      state.guguns = [{ value: null, text: "선택하세요" }]; // 초기값으로
     },
-    SET_HOUSE_LIST: (state, houses) => {
-      //   console.log(houses);
+    SET_HOUSE_LIST(state, houses) {
       state.houses = houses;
     },
-    SET_DETAIL_HOUSE: (state, house) => {
+    SET_DETAIL_HOUSE(state, house) {
       state.house = house;
     },
   },
 
   actions: {
+    // 비동기통신은 vuex의 acitons에서 처리해야 된다
     getSido: ({ commit }) => {
       sidoList(
         ({ data }) => {
@@ -52,6 +59,7 @@ const houseStore = {
       );
     },
     getGugun: ({ commit }, sidoCode) => {
+      // getSido()와 달리, GET /map/gugun은 시도코드를 params로 넘겨줘야 한다
       const params = {
         sido: sidoCode,
       };
@@ -69,16 +77,17 @@ const houseStore = {
       );
     },
     getHouseList: ({ commit }, gugunCode) => {
+      //! 이 service키는 외부에 노출되면 안되므로, ".env.local"파일을 생성해서, 변수처럼 쓰자 ("VUE_APP"으로 무조건 써야 된다)
+
       // vue cli enviroment variables 검색
       //.env.local file 생성.
       // 반드시 VUE_APP으로 시작해야 한다.
-      const SERVICE_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
-      //   const SERVICE_KEY =
-      //     "9Xo0vlglWcOBGUDxH8PPbuKnlBwbWU6aO7%2Bk3FV4baF9GXok1yxIEF%2BIwr2%2B%2F%2F4oVLT8bekKU%2Bk9ztkJO0wsBw%3D%3D";
+      const API_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
+      // const SERVICE_URL = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
       const params = {
         LAWD_CD: gugunCode,
         DEAL_YMD: "202110",
-        serviceKey: decodeURIComponent(SERVICE_KEY),
+        serviceKey: decodeURIComponent(API_KEY),
       };
       houseList(
         params,
@@ -91,8 +100,11 @@ const houseStore = {
         }
       );
     },
-    detailHouse: ({ commit }, house) => {
-      // 나중에 house.일련번호를 이용하여 API 호출
+    detailHouse({ commit }, house) {
+      // TODO house.일련번호를 이용하여 API 호출 구현
+      // (house 하나에 대한 객체 받아오기)
+      //... TODO
+      // FIXME 일단은 공공데이터에서 받아왔던 것을 그대로 넘기는 것으로 임시로 구현
       commit("SET_DETAIL_HOUSE", house);
     },
   },

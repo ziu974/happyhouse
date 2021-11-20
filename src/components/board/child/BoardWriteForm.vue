@@ -2,15 +2,15 @@
   <b-row class="mb-1">
     <b-col style="text-align: left">
       <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="userid-group" label="작성자:" label-for="userid" description="작성자를 입력하세요.">
-          <b-form-input id="userid" :disabled="isUserid" v-model="article.userid" type="text" required placeholder="작성자 입력..." ref="userid"></b-form-input>
+        <b-form-group id="userid-group" label="작성자:" label-for="userid">
+          <b-form-input id="userid" :disabled="true" v-model="userid" type="text" required placeholder="작성자 입력..." ref="userid"></b-form-input>
         </b-form-group>
 
         <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
           <b-form-input id="subject" v-model="article.subject" type="text" required placeholder="제목 입력..." ref="subject"></b-form-input>
         </b-form-group>
 
-        <b-form-group id="content-group" label="내용:" label-for="content">
+        <b-form-group id="content-group" label="내용:" label-for="content" description="내용을 입력하세요.">
           <b-form-textarea id="content" v-model="article.content" placeholder="내용 입력..." rows="10" max-rows="15" ref="content"></b-form-textarea>
         </b-form-group>
 
@@ -40,6 +40,7 @@ export default {
   },
   props: {
     type: { type: String },
+    userid: String,
   },
   created() {
     if (this.type === "modify") {
@@ -56,6 +57,8 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault();
+
+      this.article.userid = this.userid;
 
       let err = true;
       let msg = "";

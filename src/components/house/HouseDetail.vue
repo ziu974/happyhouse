@@ -1,5 +1,5 @@
 <template>
-  <b-container class="bv-example-row">
+  <b-container class="bv-example-row" v-if="house">
     <b-row>
       <b-col
         ><h3>{{ house.아파트 }}</h3></b-col
@@ -39,11 +39,13 @@
 
 <script>
 import { mapState } from "vuex";
+// const houseStore = "houseStore";
+
 export default {
   name: "HouseDetail",
   // vuex의 state에서 house객체 data를 가져오자
   computed: {
-    ...mapState(["house"]),
+    ...mapState("houseStore", ["house"]),
   },
   filters: {
     price(value) {

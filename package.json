@@ -44,6 +44,9 @@
     ],
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "globals": {
+      "kakao": false
     }
   },
   "browserslist": [

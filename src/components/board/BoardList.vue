@@ -11,7 +11,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col v-if="articles.length">
+      <b-col v-if="boardList.length">
         <b-table-simple hover responsive>
           <b-thead head-variant="dark">
             <b-tr>
@@ -24,18 +24,23 @@
           </b-thead>
           <tbody>
             <!-- 하위 component인 ListRow에 데이터 전달(props) -->
-            <board-list-row v-for="(article, index) in articles" :key="index" v-bind="article" />
+            <board-list-row v-for="(article, index) in boardList" :key="index" v-bind="article" />
           </tbody>
         </b-table-simple>
       </b-col>
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
+      <!-- Pagination 적용 부분 -->
     </b-row>
+    <b-pagination v-model="currentPage" :total-rows="boardCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick"></b-pagination>
   </b-container>
 </template>
 
 <script>
-import http from "@/util/http-common";
+// import http from "@/util/http-common";
+import { mapState, mapActions } from "vuex";
 import BoardListRow from "@/components/board/child/BoardListRow";
+
+const boardStore = "boardStore";
 
 export default {
   name: "BoardList",
@@ -45,17 +50,47 @@ export default {
   data() {
     return {
       articles: [],
+      perPage: 10,
+      currentPage: 1,
+      start: 0,
     };
   },
   created() {
-    http.get(`/board`).then(({ data }) => {
-      console.log(data);
-      this.articles = data;
-    });
+    this.getList();
+
+    // TODO 임시로 꺼둠
+    // http.get(`/board`).then(({ data }) => {
+    //   console.log(data);
+    //   this.articles = data;
+    // });
+  },
+  computed: {
+    ...mapState(boardStore, ["boardList", "boardCount"]),
   },
   methods: {
+    ...mapActions(boardStore, ["getBoardList"]),
+    // moveWrite() {
+    //   this.$router.push({ name: "BoardWrite" });
+    // },
+
     moveWrite() {
       this.$router.push({ name: "BoardWrite" });
+    },
+
+    getList() {
+      this.getBoardList({ key: "subject", pg: this.currentPage, spp: this.perPage, start: this.start, word: "" });
+    },
+
+    viewArticle(article) {
+      this.$router.push({
+        name: "BoardView",
+        params: { articleno: article.articleno },
+      });
+    },
+
+    pageClick: function (button, page) {
+      this.currentPage = page;
+      this.getList();
     },
   },
 };

@@ -9,6 +9,9 @@
 
 <script>
 import { mapActions } from "vuex";
+
+const houseStore = "houseStore";
+
 export default {
   name: "HouseListRow",
   data() {
@@ -21,7 +24,7 @@ export default {
     house: Object,
   },
   methods: {
-    ...mapActions(["detailHouse"]),
+    ...mapActions(houseStore, ["detailHouse"]),
     colorChange(flag) {
       this.isColor = flag;
     },

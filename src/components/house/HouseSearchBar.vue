@@ -22,6 +22,8 @@
 // * Map 사용 (여기는 "...map*"하면 자동완성되는 부분임 ㅎㅎ)
 import { mapState, mapActions, mapMutations } from "vuex";
 
+const houseStore = "houseStore";
+
 export default {
   name: "HouseSearchBar",
   data() {
@@ -39,11 +41,11 @@ export default {
     ////   return this.$store.state.sidos;
     ////},
     // 위의 것을, Map을 써서 더 간단하게 해보자 (Mapper를 사용하면 이렇게 여러개를 간편하게 구현할 수 있음)
-    ...mapState(["sidos", "guguns", "houses"]), //+ 위의 import 부분
+    ...mapState(houseStore, ["sidos", "guguns", "houses"]), //+ 위의 import 부분
   },
   methods: {
-    ...mapActions(["getSido", "getGugun", "getHouseList"]),
-    ...mapMutations(["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST"]),
+    ...mapActions(houseStore, ["getSido", "getGugun", "getHouseList"]),
+    ...mapMutations(houseStore, ["CLEAR_SIDO_LIST", "CLEAR_GUGUN_LIST"]),
     sidoList() {
       // 다른 페이지 갔다가 오면, 구군 리스트처럼 시도리스트도 그냥 계속 다시 얻어와져서 추가되는 것을 볼 수 있음. 알아서 해볼것
       this.CLEAR_SIDO_LIST(); // (created부분에 배치해도 되겠죠?)

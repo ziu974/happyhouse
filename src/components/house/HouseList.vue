@@ -18,6 +18,8 @@ import HouseListRow from "@/components/house/HouseListRow.vue";
 //! Vuex의 state에서 아파트 목록 data를 가져와야 됨
 import { mapState } from "vuex";
 
+const houseStore = "houseStore";
+
 export default {
   name: "HouseList",
   components: {
@@ -29,7 +31,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["houses"]),
+    ...mapState(houseStore, ["houses"]),
   },
   created() {
     // TODO 현재 목록 비우기

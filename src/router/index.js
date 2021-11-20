@@ -57,6 +57,7 @@ const routes = [
   {
     path: "/instagram",
     name: "Instagram",
+    beforeEnter: onlyAuthUser,
     component: Instagram,
   },
   {
@@ -96,6 +97,7 @@ const routes = [
       {
         path: "write",
         name: "BoardWrite",
+        beforeEnter: onlyAuthUser,
         component: BoardWrite,
       },
       {
@@ -106,11 +108,13 @@ const routes = [
       {
         path: "update/:articleno",
         name: "BoardUpdate",
+        beforeEnter: onlyAuthUser,
         component: BoardUpdate,
       },
       {
         path: "delete/:articleno",
         name: "BoardDelete",
+        beforeEnter: onlyAuthUser,
         component: BoardDelete,
       },
     ],
@@ -129,6 +133,7 @@ const routes = [
       {
         path: "write",
         name: "QnaWrite",
+        beforeEnter: onlyAuthUser,
         component: QnaWrite,
       },
       {
@@ -139,11 +144,13 @@ const routes = [
       {
         path: "update/:no",
         name: "QnaUpdate",
+        beforeEnter: onlyAuthUser,
         component: QnaUpdate,
       },
       {
         path: "delete/:no",
         name: "QnaDelete",
+        beforeEnter: onlyAuthUser,
         component: QnaDelete,
       },
     ],

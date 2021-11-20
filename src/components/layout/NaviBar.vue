@@ -41,8 +41,9 @@
             <b-dropdown-item href="#"
               ><router-link :to="{ name: 'SignUp' }" class="link"><b-icon icon="person-circle"></b-icon> 회원가입</router-link></b-dropdown-item
             >
-            <div v-if="isLogin">
+            <div v-if="!isLogin">
               <b-dropdown-item href="#">
+                {{ isLogin }}
                 <router-link :to="{ name: 'SignIn' }" class="link"><b-icon icon="key"></b-icon> 로그인</router-link>
               </b-dropdown-item>
             </div>

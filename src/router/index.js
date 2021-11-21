@@ -26,6 +26,12 @@ import House from "@/views/House.vue";
 
 import store from "@/store/index.js";
 
+// TODO
+// UI 적용부분(testing) - 여기에서 바꿔가며 테스트 중
+import Test from "@/views/Landing.vue";
+import Login from "@/views/Register.vue";
+import Profile from "@/views/Profile.vue";
+
 Vue.use(VueRouter);
 
 // https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
@@ -52,7 +58,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Test,
   },
   {
     path: "/instagram",
@@ -159,6 +165,21 @@ const routes = [
     path: "/house",
     name: "House",
     component: House,
+  },
+  {
+    path: "/uitesting",
+    name: "Test",
+    component: Home,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
   },
 ];
 

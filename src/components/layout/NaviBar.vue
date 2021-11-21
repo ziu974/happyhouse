@@ -26,6 +26,10 @@
           <b-nav-item href="#"
             ><router-link :to="{ name: 'House' }" class="link"><b-icon icon="house-fill" font-scale="1"></b-icon> 아파트정보</router-link></b-nav-item
           >
+          <!-- TODO 지우자 -->
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'Test' }" class="link"><b-icon icon="house-fill" font-scale="1"></b-icon> UI 테스팅</router-link></b-nav-item
+          >
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto" v-if="userInfo">

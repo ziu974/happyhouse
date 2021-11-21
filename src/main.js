@@ -12,6 +12,9 @@ import store from "./store";
 import Argon from "./plugins/argon-kit";
 import "./registerServiceWorker";
 Vue.use(Argon);
+import VueFormWizard from "vue-form-wizard";
+import "vue-form-wizard/dist/vue-form-wizard.min.css";
+Vue.use(VueFormWizard);
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);

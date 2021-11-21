@@ -1,8 +1,11 @@
 <template>
-  <b-container class="bv-example-row mt-3 text-center">
-    <h3 class="underline-hotpink"><b-icon icon="question"></b-icon>QnA Service</h3>
-    <router-view></router-view>
-  </b-container>
+  <div style="margin-top: 120px">
+    <b-container class="bv-example-row mt-3 text-center">
+      <h1 class="display-3">QnA</h1>
+      <!-- <h3 class="underline-hotpink"><b-icon icon="question"></b-icon>QnA Service</h3> -->
+      <router-view></router-view>
+    </b-container>
+  </div>
 </template>
 <script>
 export default {

@@ -75,7 +75,7 @@
         </router-link>
       </ul>
 
-      <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+      <!-- <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
         <base-dropdown class="nav-item" menu-classes="dropdown-menu-xl">
           <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
             <i class="ni ni-ui-04 d-lg-none"></i>
@@ -112,7 +112,7 @@
           <router-link to="/login" class="dropdown-item">Login</router-link>
           <router-link to="/register" class="dropdown-item">Register</router-link>
         </base-dropdown>
-      </ul>
+      </ul> -->
       <!-- <ul class="navbar-nav align-items-lg-center ml-lg-auto">
         <li class="nav-item">
           <a class="nav-link nav-link-icon" href="https://www.facebook.com/creativetim" target="_blank" rel="noopener" data-toggle="tooltip" title="Like us on Facebook">
@@ -138,35 +138,69 @@
             <span class="nav-link-inner--text d-lg-none">Github</span>
           </a>
         </li> -->
+
       <!-- 이 아랫줄이 왼쪽 정렬 -->
-      <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-        <li class="nav-item d-none d-lg-block ml-lg-4">
-          <a href="https://www.creative-tim.com/product/vue-argon-design-system" target="_blank" rel="noopener" class="btn btn-neutral btn-icon">
-            <span class="btn-inner--icon">
-              <i class="fa fa-cloud-download mr-2"></i>
-            </span>
-            <span class="nav-link-inner--text">USER</span>
+      <ul class="navbar-nav align-items-lg-center ml-lg-auto navbar-nav-hover">
+        <base-dropdown tag="li" class="nav-item">
+          <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
+            <i class="ni ni-collection d-lg-none"></i>
+            <span class="nav-link-inner--text">Account</span>
+            <span class="nav-link-inner--text">Already a member?</span>
           </a>
+          <router-link to="/landing" class="dropdown-item">Landing</router-link>
+          <router-link to="/profile" class="dropdown-item">Profile</router-link>
+          <router-link to="/login" class="dropdown-item">Login</router-link>
+          <router-link to="/register" class="dropdown-item">Register</router-link>
+        </base-dropdown>
+        <li class="nav-item d-none d-lg-block ml-lg-1">
+          <!-- <a href="https://www.creative-tim.com/product/vue-argon-design-system" target="_blank" rel="noopener" class="btn btn-neutral btn-icon">
+            <span class="btn-inner--icon">
+              <i class="ni ni-circle-08 mr-2"></i>
+            </span>
+            <span class="nav-link-inner--text">sign in</span>
+          </a> -->
+          <base-button class="btn btn-neutral btn-icon mb-3" @click="openLoginModal">
+            <!-- @click="openLoginModal()"> -->
+            <span class="btn-inner--icon">
+              <i class="ni ni-circle-08 mr-2"></i>
+            </span>
+            <span class="nav-link-inner--text">sign in</span>
+          </base-button>
         </li>
       </ul>
     </base-nav>
+    <!-- <login-modal :show.sync="openLogin" body-classes="p-0" modal-classes="modal-dialog-centered modal-sm"> </login-modal> -->
   </header>
 </template>
 <script>
 import BaseNav from "@/components/ui/BaseNav";
 import BaseDropdown from "@/components/ui/BaseDropdown";
 import CloseButton from "@/components/ui/CloseButton";
+import LoginModal from "@/components/user/LoginModal.vue";
 
 export default {
+  data() {
+    return {
+      openLogin: false,
+    };
+  },
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
+    LoginModal,
   },
   computed: {
     navColorSetting: function () {
       // console.log(this.$route.path);
       return this.$route.path === "/" ? "" : "primary";
+    },
+  },
+  methods: {
+    openLoginModal(event) {
+      // disable anchor tag
+      event.preventDefault();
+      this.openLogin = false;
     },
   },
 };

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Home.vue";
+import Home from "@/views/Landing.vue";
 import Instagram from "@/views/Instagram.vue";
 
 import Member from "@/views/Member.vue";
@@ -28,9 +28,10 @@ import store from "@/store/index.js";
 
 // TODO
 // UI 적용부분(testing) - 여기에서 바꿔가며 테스트 중
-import Test from "@/views/Landing.vue";
+// import Test from "@/components/fund/VueFormWizardEx.vue";
+import Test from "@/components/fund/Temp.vue";
 import Login from "@/views/Register.vue";
-import Profile from "@/views/Profile.vue";
+// import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
 
@@ -58,7 +59,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Test,
+    component: Home,
   },
   {
     path: "/instagram",
@@ -169,7 +170,7 @@ const routes = [
   {
     path: "/uitesting",
     name: "Test",
-    component: Home,
+    component: Test,
   },
   {
     path: "/login",
@@ -179,7 +180,7 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: Profile,
+    component: MemberMyPage,
   },
 ];
 

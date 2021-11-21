@@ -1,10 +1,10 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
+    <!-- <b-row>
       <b-col>
-        <b-alert show><h3>글목록</h3></b-alert>
+        <h1 class="display-3">Board</h1>
       </b-col>
-    </b-row>
+    </b-row> -->
     <b-row class="mb-1">
       <b-col class="text-right">
         <b-button variant="outline-primary" @click="moveWrite()">글쓰기</b-button>
@@ -13,7 +13,7 @@
     <b-row>
       <b-col v-if="boardList.length">
         <b-table-simple hover responsive>
-          <b-thead head-variant="dark">
+          <b-thead head-variant="borderless">
             <b-tr>
               <b-th>글번호</b-th>
               <b-th>제목</b-th>
@@ -31,7 +31,7 @@
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
     <!-- Pagination 적용 부분 -->
-    <b-pagination v-model="currentPage" :total-rows="boardCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick"></b-pagination>
+    <b-pagination v-model="currentPage" :total-rows="boardCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick" align="center"></b-pagination>
   </b-container>
 </template>
 

@@ -2,6 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <!-- Using value -->
     <b-button v-b-modal="'signup-modal'">Show Modal(로그인창열기)</b-button>
+
     <b-modal id="signup-modal">
       <b-row>
         <b-col>

@@ -11,7 +11,7 @@
         <router-view />
       </fade-transition>
     </main>
-    <router-view name="footer"></router-view>
+    <footer-comp name="footer"></footer-comp>
   </div>
 </template>
 
@@ -19,6 +19,7 @@
 // import NaviBar from "./components/layout/NaviBar.vue";
 import NavigationBar from "./components/layout/AppHeader.vue";
 import { FadeTransition } from "vue2-transitions";
+import FooterComp from "./components/layout/AppFooter.vue";
 
 export default {
   name: "App",
@@ -26,6 +27,7 @@ export default {
     // NaviBar,
     NavigationBar,
     FadeTransition,
+    FooterComp,
   },
 };
 </script>

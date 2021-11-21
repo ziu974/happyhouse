@@ -6,7 +6,7 @@
       >
     </b-row>
     <b-row class="mb-2 mt-1">
-      <b-col><b-img :src="require('@/assets/apt.png')" fluid-grow></b-img></b-col>
+      <b-col><b-img :src="require('@/assets/apt.png')" fluid-grow></b-img> <kakao-map></kakao-map></b-col>
     </b-row>
     <b-row>
       <b-col>
@@ -39,10 +39,15 @@
 
 <script>
 import { mapState } from "vuex";
+
+import KakaoMap from "@/components/house/map/HouseMap.vue";
 // const houseStore = "houseStore";
 
 export default {
   name: "HouseDetail",
+  components: {
+    KakaoMap,
+  },
   // vuex의 state에서 house객체 data를 가져오자
   computed: {
     ...mapState("houseStore", ["house"]),

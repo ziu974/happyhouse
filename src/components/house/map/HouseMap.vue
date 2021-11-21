@@ -1,18 +1,20 @@
 <template>
   <div>
     <div id="map" style="width: 100%"></div>
-    <div class="button-group">
+    <!-- <div class="button-group">
       <button @click="changeSize(0)">Hide</button>
       <button @click="changeSize(400)">show</button>
       <button @click="displayMarker(markerPositions1)">marker set 1</button>
-      <button @click="displayMarker(markerPositions2)">marker set 2</button>
+      <button @click="getGeocode(selectedHouse)">현재선택된항목</button>
       <button @click="displayMarker([])">marker set 3 (empty)</button>
       <button @click="displayInfoWindow">infowindow</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "KakaoMap",
   data() {
@@ -34,7 +36,20 @@ export default {
       ],
       markers: [],
       infowindow: null,
+      // 11.20 주소-좌표 변환 객체를 생성합니다
+      // geocoder: null,
+      // 현재 선택된 항목의 위경도 값
+      selectedHouseGeocode: [0, 0],
     };
+  },
+  computed: {
+    ...mapState("houseStore", ["selectedHouse"]),
+  },
+  watch: {
+    selectedHouse: function () {
+      this.getGeocode(this.selectedHouse);
+      // console.log(this.latlng);
+    },
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -42,7 +57,9 @@ export default {
     } else {
       const script = document.createElement("script");
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=3d41e8a4af2ee36dc518d26a34f41505";
+      // script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=3d41e8a4af2ee36dc518d26a34f41505&libraries=services";
+      //! 11.20 에러해결 완료: Uncaught TypeError: Cannot read property 'Geocoder' of undefined => 여기 맨 뒤에 "&libraries=services" 를 붙인다
+      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=3d41e8a4af2ee36dc518d26a34f41505&libraries=services";
       document.head.appendChild(script);
     }
   },
@@ -50,10 +67,57 @@ export default {
     initMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 5,
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 5 /* 지도의 확대 레벨 */,
       };
       this.map = new kakao.maps.Map(container, options);
+      // 주소-좌표 변환 객체를 생성 및 초기화하기 위해
+      this.initGeocoder();
+    },
+    initGeocoder() {
+      this.geocoder = new kakao.maps.services.Geocoder();
+      // console.log(this.geocoder);
+      // 테스트
+      //// this.getGeocode("제주특별자치도 제주시 첨단로 242");
+    },
+    getGeocode(selectedHouse) {
+      console.log(selectedHouse);
+      // 주소 계산
+      let addressString = selectedHouse.법정동 + " " + selectedHouse.지번;
+      console.log(addressString);
+
+      //! 에러해결 (X) 이렇게 하면 addressSearch의 콜백 함수 안에서는 this가 undefined (function을 뺴야함 -> lambda로)
+      // this.geocoder.addressSearch(this.keyword, function(result, status) { /* do something */ });
+      this.geocoder.addressSearch(addressString, (result, status) => {
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+          //? ISSUE::CODE02 - 왜 이 함수표현식 안에서는 "this."가 안될까? 비동기 함수라 그런가...
+          // this.selectedHouseGeocode =  [[result[0].y, result[0].x]]; --> ERROR
+          let c = [[result[0].y, result[0].x]];
+          console.log(c);
+          this.displayMarker(c);
+
+          //// (개발자 문서 기본코드)
+          // console.log(result);
+          // var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          // console.log(coords);
+
+          // // 결과값으로 받은 위치를 마커로 표시합니다
+          // var marker = new kakao.maps.Marker({
+          //   map: this.map,
+          //   position: coords,
+          // });
+
+          // // 인포윈도우로 장소에 대한 설명을 표시합니다
+          // var infowindow = new kakao.maps.InfoWindow({
+          //   content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>',
+          // });
+          // infowindow.open(this.map, marker);
+
+          // // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+          // this.map.setCenter(coords);
+        }
+      });
     },
     changeSize(size) {
       const container = document.getElementById("map");
@@ -62,6 +126,7 @@ export default {
       this.map.relayout();
     },
     displayMarker(markerPositions) {
+      // console.log(this.selectedHouse);
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }

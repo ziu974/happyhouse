@@ -10,6 +10,8 @@ const houseStore = {
     guguns: [{ value: null, text: "선택하세요" }],
     houses: [],
     house: null,
+    //TODO 'house'와 동일, 임시로 넣어둠 - 삭제해라
+    selectedHouse: null,
   },
 
   getters: {},
@@ -42,6 +44,7 @@ const houseStore = {
     },
     SET_DETAIL_HOUSE(state, house) {
       state.house = house;
+      state.selectedHouse = house;
     },
   },
 

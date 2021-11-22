@@ -20,4 +20,8 @@ function houseList(params, success, fail) {
   house.get(``, { params: params }).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, houseList };
+function dongList(params, success, fail) {
+  api.get(`/map/dong`, { params: params }).then(success).catch(fail);
+}
+
+export { sidoList, gugunList, houseList, dongList };

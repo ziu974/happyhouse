@@ -28,8 +28,8 @@ import store from "@/store/index.js";
 
 // TODO
 // UI 적용부분(testing) - 여기에서 바꿔가며 테스트 중
-// import Test from "@/components/fund/VueFormWizardEx.vue";
-import Test from "@/components/fund/Temp.vue";
+import Test from "@/components/fund/VueFormWizardEx.vue";
+// import Test from "@/components/fund/Temp.vue";
 import Login from "@/views/Register.vue";
 // import Profile from "@/views/Profile.vue";
 

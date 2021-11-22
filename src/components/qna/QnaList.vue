@@ -13,10 +13,10 @@
     <b-row>
       <b-col>
         <b-table striped hover :items="posts" :fields="fields" @row-clicked="moveView"> </b-table>
+        <b-pagination v-model="currentPage" :total-rows="totalCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick" align="center"></b-pagination>
       </b-col>
     </b-row>
     <!-- Pagination 적용 부분 -->
-    <b-pagination v-model="currentPage" :total-rows="totalCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick" align="center"></b-pagination>
   </b-container>
 </template>
 
@@ -37,6 +37,7 @@ export default {
         { key: "userid", label: "작성자", tdClass: "tdClass" },
         { key: "regtime", label: "작성일", tdClass: "tdClass" },
         { key: "hit", label: "조회수", tdClass: "tdClass" },
+        { key: "bg", label: "시험삼아", tdClass: "tdClass" },
       ],
       // pagination 관련
       perPage: 10,

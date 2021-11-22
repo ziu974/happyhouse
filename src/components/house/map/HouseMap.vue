@@ -81,10 +81,10 @@ export default {
       //// this.getGeocode("제주특별자치도 제주시 첨단로 242");
     },
     getGeocode(selectedHouse) {
-      console.log(selectedHouse);
+      // console.log(selectedHouse);
       // 주소 계산
       let addressString = selectedHouse.법정동 + " " + selectedHouse.지번;
-      console.log(addressString);
+      // console.log(addressString);
 
       //! 에러해결 (X) 이렇게 하면 addressSearch의 콜백 함수 안에서는 this가 undefined (function을 뺴야함 -> lambda로)
       // this.geocoder.addressSearch(this.keyword, function(result, status) { /* do something */ });

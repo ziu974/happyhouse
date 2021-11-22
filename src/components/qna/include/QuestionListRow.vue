@@ -7,6 +7,7 @@
     <b-td>{{ hit }}</b-td>
     <b-td>{{ userid }}</b-td>
     <b-td>{{ regtime }}</b-td>
+    <b-td><badge type="default">Default</badge></b-td>
   </b-tr>
 </template>
 

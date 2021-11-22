@@ -1,14 +1,20 @@
 //! 이렇게 import한 것을 받아오고 있음
-import { sidoList, gugunList, houseList } from "@/api/house.js";
+import { sidoList, gugunList, houseList, dongList } from "@/api/house.js";
 
 const houseStore = {
   // ? store를 여러개로 분리를 했기 때문에 namespace를 설정해서 구분할 수 있어야 됨 (index.js가 사용)
   namespaced: true,
   state: {
     // 비동기 통신으로 받아온 데이터 역시 vuex의 state에서 관리해야 된다
-    sidos: [{ value: null, text: "선택하세요" }],
-    guguns: [{ value: null, text: "선택하세요" }],
+    sidos: [{ value: null, text: "시/도" }],
+    guguns: [{ value: null, text: "구/군" }],
+    dongs: [{ value: null, text: "동" }],
+    filterOption: {
+      selectedDong: Number,
+    },
+    selectedDong: Number,
     houses: [],
+    filteredHouses: [],
     house: null,
     //TODO 'house'와 동일, 임시로 넣어둠 - 삭제해라
     selectedHouse: null,
@@ -32,19 +38,40 @@ const houseStore = {
         //? BUT, 선택지에 계속 추가가 되는 것을 볼 수 있음 -> CLEAR_GUGUN_LIST mutation
       });
     },
+    SET_DONG_LIST(state, dongs) {
+      dongs.forEach((dong) => {
+        state.dongs.push({ value: dong.dongCode, text: dong.dongName });
+      });
+    },
     CLEAR_SIDO_LIST(state) {
-      state.sidos = [{ value: null, text: "선택하세요" }];
+      state.sidos = [{ value: null, text: "시/도" }];
     },
     CLEAR_GUGUN_LIST(state) {
       //! 이 mutation의 호출 (HouseSearchBar.vue의 methods.gugunList()부분을 보자)
-      state.guguns = [{ value: null, text: "선택하세요" }]; // 초기값으로
+      state.guguns = [{ value: null, text: "구/군" }]; // 초기값으로
+    },
+    CLEAR_DONG_LIST(state) {
+      state.selectedDong = null;
+      state.dongs = [{ value: null, text: "(헷)" }]; // 초기값으로
+    },
+    CLEAR_HOUSE_LIST(state) {
+      state.houses = null;
     },
     SET_HOUSE_LIST(state, houses) {
       state.houses = houses;
+      // state.filteredHouses = houses;
+    },
+    SET_FILTERED_HOUSE_LIST(state, filteredHouses) {
+      state.filteredHouses = filteredHouses;
     },
     SET_DETAIL_HOUSE(state, house) {
       state.house = house;
       state.selectedHouse = house;
+    },
+    SET_DONG_FILTER(state, dongCode) {
+      console.log("필터링(동별): " + dongCode);
+      // state.filterOption.selectedDong = dongCode;
+      state.selectedDong = dongCode;
     },
   },
 
@@ -79,6 +106,22 @@ const houseStore = {
         }
       );
     },
+    getDong: ({ commit }, gugunCode) => {
+      // getSido()와 달리, GET /map/gugun은 시도코드를 params로 넘겨줘야 한다
+      const params = {
+        gugun: gugunCode,
+      };
+      dongList(
+        params,
+        ({ data }) => {
+          // console.log(commit, response);
+          commit("SET_DONG_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     getHouseList: ({ commit }, gugunCode) => {
       //! 이 service키는 외부에 노출되면 안되므로, ".env.local"파일을 생성해서, 변수처럼 쓰자 ("VUE_APP"으로 무조건 써야 된다)
 
@@ -88,6 +131,7 @@ const houseStore = {
       const API_KEY = process.env.VUE_APP_APT_DEAL_API_KEY;
       // const SERVICE_URL = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
       const params = {
+        numOfRows: 1000,
         LAWD_CD: gugunCode,
         DEAL_YMD: "202110",
         serviceKey: decodeURIComponent(API_KEY),
@@ -95,7 +139,7 @@ const houseStore = {
       houseList(
         params,
         (response) => {
-          //   console.log(response.data.response.body.items.item);
+          console.log(response.data.response.body.items.item);
           commit("SET_HOUSE_LIST", response.data.response.body.items.item);
         },
         (error) => {

@@ -15,6 +15,8 @@ Vue.use(Argon);
 import VueFormWizard from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
 Vue.use(VueFormWizard);
+import VueCompositionAPI from "@vue/composition-api";
+Vue.use(VueCompositionAPI);
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);

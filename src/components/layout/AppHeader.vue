@@ -35,16 +35,16 @@
               </div>
               <div class="media-body ml-3">
                 <h6 class="heading text-primary mb-md-1">Getting started</h6>
-                <p class="description d-none d-md-inline-block mb-0">Get started with Bootstrap, the world's most popular framework for building responsive sites.</p>
+                <p class="description d-none d-md-inline-block mb-0">Get started with HappyHouse, a perfect tool to help find your perfect match.</p>
               </div>
             </a>
             <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/" class="media d-flex align-items-center">
               <div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
-                <i class="ni ni-ui-04"></i>
+                <i class="ni ni-single-02"></i>
               </div>
               <div class="media-body ml-3">
                 <h5 class="heading text-warning mb-md-1">About Us</h5>
-                <p class="description d-none d-md-inline-block mb-0">Learn how to use Argon compiling Scss, change brand colors and more.</p>
+                <p class="description d-none d-md-inline-block mb-0">Learn about our team, and where to contact us</p>
               </div>
             </a>
           </div>
@@ -176,7 +176,7 @@
 import BaseNav from "@/components/ui/BaseNav";
 import BaseDropdown from "@/components/ui/BaseDropdown";
 import CloseButton from "@/components/ui/CloseButton";
-import LoginModal from "@/components/user/LoginModal.vue";
+// import LoginModal from "@/components/user/LoginModal.vue";
 
 export default {
   data() {
@@ -188,7 +188,7 @@ export default {
     BaseNav,
     CloseButton,
     BaseDropdown,
-    LoginModal,
+    // LoginModal,
   },
   computed: {
     navColorSetting: function () {

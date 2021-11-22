@@ -2,25 +2,28 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show><h3>질문글 보기</h3></b-alert>
+        <!-- <b-alert show><h3>질문글 보기</h3></b-alert> -->
       </b-col>
     </b-row>
     <b-row class="mb-1">
       <b-col class="text-left">
-        <b-button variant="outline-primary" @click="moveQnaList">질문 목록</b-button>
+        <base-button type="secondary" @click="moveQnaList">&lt; 질문 목록</base-button>
       </b-col>
       <b-col class="text-right">
-        <b-button variant="outline-info" size="sm" @click="moveQnaUpdate" class="mr-2" :disabled="!isWriterId">글수정</b-button>
-        <b-button variant="outline-danger" size="sm" @click="deleteQnaPost" :disabled="!isAdminId && !isWriterId">글삭제</b-button>
+        <base-button type="secondary" @click="moveQnaUpdate" class="mr-2" :disabled="!isWriterId" v-b-popover.hover.top="'수정은 본인만 가능합니다'" title="Popover On Top">글수정</base-button>
+        <base-button type="secondary" @click="deleteQnaPost" :disabled="!isAdminId && !isWriterId">글삭제</base-button>
       </b-col>
     </b-row>
     <b-row class="mb-1">
       <b-col>
-        <b-card :header-html="`<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`" class="mb-2" border-variant="dark" no-body>
+        <card shadow class="card-profile" no-body>
+          <!-- <b-card :header-html="`<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`" class="mb-2" border-variant="dark" no-body> -->
+          <div style="padding-top: 30px" v-html="`<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`"></div>
+          <hr style="margin: 20px" />
           <b-card-body class="text-left">
             <div v-html="message"></div>
           </b-card-body>
-        </b-card>
+        </card>
       </b-col>
     </b-row>
     <div>

@@ -1,6 +1,7 @@
 <template>
   <div v-show="isShow" class="comment">
     <div class="head">{{ answer.userid }} ({{ answer.regtime }})</div>
+
     <!-- 댓글 수정 시 -->
     <answer-write v-if="isModifyState && this.modifyAnswer != null" :modifyAnswer="this.modifyAnswer" @modify-answer-finish="onModifyAnswerFinish" />
     <div v-else class="content" v-html="enterToBr(answer.content)"></div>

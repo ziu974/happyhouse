@@ -10,23 +10,44 @@
         <base-button type="secondary" @click="moveQnaList">&lt; 질문 목록</base-button>
       </b-col>
       <b-col class="text-right">
-        <base-button type="secondary" @click="moveQnaUpdate" class="mr-2" :disabled="!isWriterId" v-b-popover.hover.top="'수정은 본인만 가능합니다'" title="Popover On Top">글수정</base-button>
+        <base-button
+          type="secondary"
+          @click="moveQnaUpdate"
+          class="mr-2"
+          :disabled="!isWriterId"
+          v-b-popover.hover.top="'수정은 본인만 가능합니다'"
+          title="Popover On Top"
+          >글수정</base-button
+        >
         <base-button type="secondary" @click="deleteQnaPost" :disabled="!isAdminId && !isWriterId">글삭제</base-button>
       </b-col>
     </b-row>
     <b-row class="mb-1">
       <b-col>
-        <card shadow class="card-profile" no-body>
+        <card shadow class="card-profile" no-body style="padding-top: 30px">
+          <div class="mr-4"><h6 v-html="`작성일시: ${question.regtime}`" style="color: gray; font-size: smaller; text-align: end"></h6></div>
+          <h3 class="mb-3" v-html="`Q. ${question.subject}`"></h3>
+          <h6 v-html="`글번호: ${question.no} | 조회수: ${question.hit} | 작성자: ${question.userid} `"></h6>
           <!-- <b-card :header-html="`<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`" class="mb-2" border-variant="dark" no-body> -->
-          <div style="padding-top: 30px" v-html="`<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`"></div>
+          <!-- <div
+            style="padding-top: 30px"
+            v-html="
+              `<h3>${question.no}.${question.subject} [${question.hit}]</h3><div><h6>${question.userid}</div><div>${question.regtime}</h6></div>`
+            "
+          ></div> -->
           <hr style="margin: 20px" />
-          <b-card-body class="text-left">
+          <b-card-body class="text-left mb-4">
             <div v-html="message"></div>
           </b-card-body>
         </card>
       </b-col>
     </b-row>
     <div>
+      <!-- <blockquote class="blockquote"> -->
+      <p class="lead text-left ml-3 mb-0">
+        <strong>Answer </strong><span style="font-weight: bold">{{ answers.length }}</span>
+      </p>
+      <!-- </blockquote> -->
       <answer-write :qnano="this.question.no" @create-answer="onCreateAnswer" />
       <!-- <answer-write v-if="isModifyShow && this.modifyAnswer != null" :modifyAnswer="this.modifyAnswer" @modify-answer-cancel="onModifyAnswerCancel" /> -->
       <answer v-for="(answer, index) in answers" :key="index" :answer="answer" @update-answer-list="getAnswerList(answer.qnano)" />
@@ -55,7 +76,7 @@ export default {
       // isModifyShow: false,
       modifyAnswer: Object,
       isWriterId: false,
-      isQualifiedId: false,
+      isAdminId: false,
     };
   },
   computed: {
@@ -139,4 +160,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.sdf {
+  text-align: end;
+  font-size: smaller;
+}
+</style>

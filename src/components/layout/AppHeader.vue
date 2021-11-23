@@ -29,16 +29,19 @@
             <span class="nav-link-inner--text" icon="ni ni-bell-55">Guide</span>
           </a>
           <div class="dropdown-menu-inner">
-            <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/" class="media d-flex align-items-center">
+            <router-link :to="{ name: 'Guide' }" class="media d-flex align-items-center">
+              <!-- <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/" class="media d-flex align-items-center"> -->
               <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
                 <i class="ni ni-spaceship"></i>
               </div>
               <div class="media-body ml-3">
                 <h6 class="heading text-primary mb-md-1">Getting started</h6>
-                <p class="description d-none d-md-inline-block mb-0">Get started with HappyHouse, a perfect tool to help find your perfect match.</p>
+                <p class="description d-none d-md-inline-block mb-0">Get to know HappyHouse, a perfect tool to help find your perfect match.</p>
               </div>
-            </a>
-            <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/" class="media d-flex align-items-center">
+            </router-link>
+            <!-- </a> -->
+            <!-- <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/" class="media d-flex align-items-center"> -->
+            <router-link :to="{ name: 'AboutUs' }" class="media d-flex align-items-center">
               <div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
                 <i class="ni ni-single-02"></i>
               </div>
@@ -46,7 +49,8 @@
                 <h5 class="heading text-warning mb-md-1">About Us</h5>
                 <p class="description d-none d-md-inline-block mb-0">Learn about our team, and where to contact us</p>
               </div>
-            </a>
+              <!-- </a> -->
+            </router-link>
           </div>
         </base-dropdown>
       </ul>
@@ -71,7 +75,7 @@
       <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
         <router-link :to="{ name: 'Test' }" class="nav-link">
           <b-icon icon="heart" font-scale="1"></b-icon>
-          <span class="nav-link-inner--text">UI Testing</span>
+          <span class="nav-link-inner--text">_</span>
         </router-link>
       </ul>
 
@@ -88,7 +92,9 @@
               </div>
               <div class="media-body ml-3">
                 <h6 class="heading text-primary mb-md-1">Getting started</h6>
-                <p class="description d-none d-md-inline-block mb-0">Get started with Bootstrap, the world's most popular framework for building responsive sites.</p>
+                <p class="description d-none d-md-inline-block mb-0">
+                  Get started with Bootstrap, the world's most popular framework for building responsive sites.
+                </p>
               </div>
             </a>
             <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/" class="media d-flex align-items-center">
@@ -141,11 +147,31 @@
 
       <!-- 이 아랫줄이 왼쪽 정렬 -->
       <ul class="navbar-nav align-items-lg-center ml-lg-auto navbar-nav-hover">
-        <base-dropdown tag="li" class="nav-item">
+        <!-- <b-nav-item class="align-self-center"
+          ><b-avatar variant="primary" v-text="userInfo ? userInfo.userid.charAt(0).toUpperCase() : ''"></b-avatar>{{ userInfo.username }}({{
+            userInfo.userid
+          }})님 환영합니다.</b-nav-item
+        > -->
+        <router-link to="/profile" class="nav-link" v-if="userInfo">
+          <b-avatar
+            class="align-self-center mr-1"
+            size="2rem"
+            variant="primary"
+            v-text="userInfo ? userInfo.userid.charAt(0).toUpperCase() : ''"
+          ></b-avatar>
+          Hello, {{ userInfo.name }}!
+        </router-link>
+        <!-- <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
+          <i class="ni ni-collection d-lg-none"></i>
+          <span class="nav-link-inner--text"></span>
+          <span class="nav-link-inner--text">Already a member?</span>
+        </a> -->
+        <base-dropdown tag="li" class="nav-item" v-else>
           <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
             <i class="ni ni-collection d-lg-none"></i>
-            <span class="nav-link-inner--text">Account</span>
-            <span class="nav-link-inner--text">Already a member?</span>
+
+            <span class="nav-link-inner--text" v-if="userInfo">Hello, {{ userInfo.name }}!</span>
+            <span class="nav-link-inner--text" v-else>Already a member?</span>
           </a>
           <router-link to="/landing" class="dropdown-item">Landing</router-link>
           <router-link to="/profile" class="dropdown-item">Profile</router-link>
@@ -159,48 +185,110 @@
             </span>
             <span class="nav-link-inner--text">sign in</span>
           </a> -->
-          <base-button class="btn btn-neutral btn-icon mb-3" @click="openLoginModal">
+          <base-button outline type="default" @click="onClickLogout" v-if="userInfo">
             <!-- @click="openLoginModal()"> -->
+            <span class="btn-inner--icon">
+              <i class="fa fa-sign-out mr-2"></i>
+            </span>
+            <span class="nav-link-inner--text">Logout</span>
+          </base-button>
+          <base-button class="btn btn-neutral btn-icon" @click="openLoginModal" v-else>
             <span class="btn-inner--icon">
               <i class="ni ni-circle-08 mr-2"></i>
             </span>
+
             <span class="nav-link-inner--text">sign in</span>
           </base-button>
+          <!-- <modal :show.sync="modals.loginModal" body-classes="p-0" modal-classes="modal-dialog-centered modal-sm">
+            <card type="secondary" shadow header-classes="bg-white pb-5" body-classes="px-lg-5 py-lg-5" class="border-0">
+              <template>
+                <div class="text-muted text-center mb-3">
+                  <small>Sign in with</small>
+                </div>
+                <div class="btn-wrapper text-center">
+                  <base-button type="neutral">
+                    <img slot="icon" src="https://demos.creative-tim.com/argon-design-system/assets/img/icons/common/github.svg" />
+                    Github
+                  </base-button>
+
+                  <base-button type="neutral">
+                    <img slot="icon" src="https://demos.creative-tim.com/argon-design-system/assets/img/icons/common/google.svg" />
+                    Google
+                  </base-button>
+                </div>
+              </template>
+              <template>
+                <div class="text-center text-muted mb-4">
+                  <small>Or sign in with credentials</small>
+                </div>
+                <form role="form">
+                  <base-input alternative class="mb-3" placeholder="Email" addon-left-icon="ni ni-email-83"> </base-input>
+                  <base-input alternative type="password" placeholder="Password" addon-left-icon="ni ni-lock-circle-open"> </base-input>
+                  <base-checkbox> Remember me </base-checkbox>
+                  <div class="text-center">
+                    <base-button type="primary" class="my-4">Sign In</base-button>
+                  </div>
+                </form>
+              </template>
+            </card>
+          </modal>-->
+          <login-modal> </login-modal>
         </li>
       </ul>
     </base-nav>
-    <!-- <login-modal :show.sync="openLogin" body-classes="p-0" modal-classes="modal-dialog-centered modal-sm"> </login-modal> -->
   </header>
 </template>
 <script>
+import { mapState, mapActions, mapMutations } from "vuex";
 import BaseNav from "@/components/ui/BaseNav";
 import BaseDropdown from "@/components/ui/BaseDropdown";
 import CloseButton from "@/components/ui/CloseButton";
-// import LoginModal from "@/components/user/LoginModal.vue";
+import LoginModal from "@/components/user/LoginModal.vue";
+
+//TODO import Modal from "@/components/ui/Modal.vue";
 
 export default {
   data() {
     return {
       openLogin: false,
+      modals: {
+        loginModal: false,
+      },
     };
   },
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
-    // LoginModal,
+    LoginModal,
+    //TODO Modal,
+  },
+  updated() {
+    console.log("updated! called");
+    // this.SET_SHOW_LOGIN_MODAL(false);
   },
   computed: {
+    ...mapState("memberStore", ["userInfo"]),
+    ...mapState("rootStore", ["showLoginModal"]),
+
     navColorSetting: function () {
       // console.log(this.$route.path);
       return this.$route.path === "/" ? "" : "primary";
     },
   },
   methods: {
-    openLoginModal(event) {
-      // disable anchor tag
-      event.preventDefault();
-      this.openLogin = false;
+    ...mapMutations("rootStore", ["SET_TRIGGER_LOGIN_MODAL"]),
+    ...mapActions("memberStore", ["updateUserInfo", "deleteUserAccount", "logout"]),
+
+    openLoginModal() {
+      //// disable anchor tag
+      //// e.preventDefault();
+      //TODO this.modals.loginModal = true;
+      //// this.openLogin = true;
+      this.SET_TRIGGER_LOGIN_MODAL();
+    },
+    onClickLogout() {
+      this.logout();
     },
   },
 };

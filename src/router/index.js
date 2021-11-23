@@ -1,7 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "@/views/Landing.vue";
-import Instagram from "@/views/Instagram.vue";
+// import Instagram from "@/views/Instagram.vue";
+
+import Guide from "@/views/Guide.vue";
+import AboutUs from "@/views/AboutUs.vue";
 
 import Member from "@/views/Member.vue";
 import MemberLogin from "@/components/user/MemberLogin.vue";
@@ -30,7 +33,8 @@ import store from "@/store/index.js";
 // UI 적용부분(testing) - 여기에서 바꿔가며 테스트 중
 import Test from "@/components/fund/VueFormWizardEx.vue";
 // import Test from "@/components/fund/Temp.vue";
-import Login from "@/views/Register.vue";
+import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
 // import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
@@ -48,7 +52,7 @@ const onlyAuthUser = async (to, from, next) => {
   if (checkUserInfo === null) {
     alert("로그인이 필요한 페이지입니다..");
     // next({ name: "SignIn" });
-    router.push({ name: "SignIn" });
+    router.push({ name: "Login" });
   } else {
     console.log("로그인 했다.");
     next();
@@ -62,11 +66,21 @@ const routes = [
     component: Home,
   },
   {
-    path: "/instagram",
-    name: "Instagram",
-    beforeEnter: onlyAuthUser,
-    component: Instagram,
+    path: "/guide",
+    name: "Guide",
+    component: Guide,
   },
+  {
+    path: "/aboutus",
+    name: "AboutUs",
+    component: AboutUs,
+  },
+  // {
+  //   path: "/instagram",
+  //   name: "Instagram",
+  //   beforeEnter: onlyAuthUser,
+  //   component: Instagram,
+  // },
   {
     path: "/user",
     name: "Member",
@@ -176,6 +190,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
   },
   {
     path: "/profile",

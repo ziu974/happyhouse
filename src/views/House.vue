@@ -1,19 +1,23 @@
 <template>
   <div style="margin-top: 120px">
     <b-container class="bv-example-row mt-3 text-center">
-      <h1 class="display-3">Browse Deals</h1>
+      <h1 class="display-3"><strong>Browse Deals</strong></h1>
+
       <!-- <h3 class="underline-orange"><b-icon icon="house-fill"></b-icon> 아파트 거래</h3> -->
+      <!-- <b-row style="margin: 20px; background-color: lightgray; padding: 20px"> -->
       <b-row style="margin: 20px">
         <b-col>
           <house-search-bar></house-search-bar>
         </b-col>
         <b-col>
-          <kakao-map></kakao-map>
+          <house-list />
+          <!-- <kakao-map></kakao-map> -->
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="6" align="left">
-          <house-list />
+          <kakao-map></kakao-map>
+          <!-- <house-list /> -->
         </b-col>
         <b-col cols="6">
           <house-detail />

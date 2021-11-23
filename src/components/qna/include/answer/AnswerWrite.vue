@@ -1,13 +1,21 @@
 <template>
   <div class="regist">
     <div v-if="this.modifyAnswer != null" class="regist_form">
-      <b-textarea id="answer" name="answer" v-model="modifyAnswer.content" cols="35" rows="2"></b-textarea>
+      <b-textarea id="answer" name="answer" v-model="modifyAnswer.content" cols="35" rows="2" :disabled="userInfo"></b-textarea>
       <b-button class="small" @click="updateAnswerCancel">취소</b-button>
       <b-button class="small" @click="updateAnswer">수정</b-button>
     </div>
     <div v-else class="regist_form">
-      <b-textarea id="answer" name="answer" v-model="content" cols="35" rows="2"></b-textarea>
-      <b-button @click="registAnswer">등록</b-button>
+      <textarea
+        id="answer"
+        class="form-control form-control-alternative"
+        name="answer"
+        v-model="content"
+        cols="35"
+        rows="2"
+        style="border-radius: 10px"
+      ></textarea>
+      <base-button type="primary" @click="registAnswer">등록</base-button>
     </div>
   </div>
 </template>
@@ -22,8 +30,11 @@ export default {
     return {
       // 차후 작성자 이름은 로그인 구현후 로그인한 사용자로 바꾼다.
       // userid: this.account.userid,
-      userid: "ssafy",
+      // userid: "ssafy",
       content: "",
+      modals: {
+        // modal0,
+      },
     };
   },
   props: {
@@ -31,13 +42,13 @@ export default {
     modifyAnswer: { type: Object },
   },
   computed: {
-    ...mapState(["account"]),
+    ...mapState("memberStore", ["userInfo"]),
   },
   methods: {
     registAnswer() {
       http
         .post("/qna/answer/", {
-          userid: this.userid,
+          userid: this.userInfo.userid,
           content: this.content,
           qnano: this.qnano,
         })
@@ -83,12 +94,12 @@ export default {
 .regist {
   padding: 10px;
 }
-.regist_form {
+/* .regist_form {
   text-align: left;
   border-radius: 5px;
   background-color: #d6e7fa;
   padding: 20px;
-}
+} */
 
 textarea {
   width: 90%;
@@ -99,7 +110,7 @@ textarea {
   border-radius: 4px;
   box-sizing: border-box;
   color: #787878;
-  font-size: large;
+  font-size: medium;
 }
 
 button {

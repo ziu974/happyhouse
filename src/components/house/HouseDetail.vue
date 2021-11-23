@@ -34,6 +34,21 @@
         <b-alert show variant="danger">거래금액 : {{ (parseInt(house.거래금액.replace(",", "")) * 10000) | price }}원</b-alert>
       </b-col>
     </b-row>
+    <div class="col-md-6">
+      <div class="card bg-default shadow border-0">
+        <img class="card-img-top" data-src="img/theme/img-1-1200x1000.jpg" src="img/theme/img-1-1200x1000.jpg" lazy="loaded" />
+        <blockquote class="card-blockquote">
+          <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 583 95" class="svg-bg">
+            <polygon points="0,52 583,95 0,95" class="fill-default"></polygon>
+            <polygon points="0,42 583,95 683,0 0,95" opacity=".2" class="fill-default"></polygon>
+          </svg>
+          <h4 class="display-3 font-weight-bold text-white">Design System</h4>
+          <p class="lead text-italic text-white">
+            The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens.
+          </p>
+        </blockquote>
+      </div>
+    </div>
   </b-container>
 </template>
 

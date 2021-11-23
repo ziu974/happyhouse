@@ -6,13 +6,25 @@
     <answer-write v-if="isModifyState && this.modifyAnswer != null" :modifyAnswer="this.modifyAnswer" @modify-answer-finish="onModifyAnswerFinish" />
     <div v-else class="content" v-html="enterToBr(answer.content)"></div>
     <!-- 로그인 기능 구현 후 로그인한 자신의 글에만 보이게 한다. -->
-    <div class="cbtn"><span @click="modifyAnswerView">수정</span> | <span @click="deleteAnswer">삭제</span></div>
+    <!-- <div class="cbtn"><span @click="modifyAnswerView">수정</span> | <span @click="deleteAnswer">삭제</span></div> -->
+    <div class="cbtn"><span @click="modifyAnswerView">수정</span> | <span @click="modals.modal0 = true">삭제</span></div>
+    <modal :show.sync="modals.modal1">
+      <template slot="header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      </template>
+      <div>...</div>
+      <template slot="footer">
+        <base-button type="secondary" @click="modals.modal0 = false">Close</base-button>
+        <base-button type="primary">Save changes</base-button>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
 import http from "@/util/http-common";
 import AnswerWrite from "@/components/qna/include/answer/AnswerWrite.vue";
+import Modal from "@/components/ui/Modal.vue";
 
 export default {
   name: "Answer",
@@ -28,6 +40,7 @@ export default {
   },
   components: {
     AnswerWrite,
+    Modal,
   },
   methods: {
     modifyAnswerView() {

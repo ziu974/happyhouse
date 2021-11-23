@@ -3,17 +3,25 @@
   <b-container v-if="filteredHouses && filteredHouses.length != 0" class="bv-example-row mt-3">
     <!-- "house-list-row"자식 component에게 주택data를, Object 타입으로 전달할 것이므로, v-bind(":")필요 => ':house' 부분-->
     <!-- (이제 HouseListRow.vue를 가보자) -->
-    <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="my-table" @page-click="pageClick" align="center"></b-pagination>
-    <b-list-group id="my-table" style="list-style: none">
+
+    <b-list-group id="my-table" class="mb-4" style="list-style: none">
       <!-- <li id="my-table"> -->
       <house-list-row v-for="(house, index) in subList" :key="index" :house="house" />
       <!-- </li> -->
     </b-list-group>
     <!-- Pagination 적용 부분 -->
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+      @page-click="pageClick"
+      align="center"
+    ></b-pagination>
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
     <b-row>
-      <b-col><base-alert type="default" align="center" show>주택 목록이 없습니다.</base-alert></b-col>
+      <b-col><base-alert outline type="default" align="center" show style="background-color: #8898aa">No match</base-alert></b-col>
     </b-row>
   </b-container>
 </template>
@@ -33,21 +41,34 @@ export default {
   },
   data() {
     return {
+      // filter관련
       filterOp: null,
+
       // houselist: [],
       // pagination 관련
-      perPage: 10,
+      perPage: 8,
       currentPage: 1,
       start: 0,
       totalCount: 0,
     };
   },
   computed: {
-    ...mapState(houseStore, ["houses", "selectedDong"]),
+    ...mapState(houseStore, ["houses", "filterOption"]),
     filteredHouses: function () {
       if (this.filterOp) {
-        console.log(this.filterOp);
-        return this.houses.filter((house) => house.법정동읍면동코드 == this.filterOp);
+        if (this.filterOp.type === "dong") {
+          //// console.log(this.filterOptions.selectedDong);
+          return this.houses.filter((house) => house.법정동읍면동코드 == this.filterOp.value);
+        } else if (this.filterOp.type === "aptname") {
+          return this.houses.filter((house) => house.아파트.includes(this.filterOp.value.trim()));
+        } else if (this.filterOp.type === "price") {
+          console.log("으악2");
+          return this.houses.filter((house) => house.거래가 === "ㅏ");
+          // } else if (this.filterOp.sortPrice) {
+          //   return this.houses.sort((a, b) => {
+          //     return b.거래가 - a.거래가;
+          //   });
+        } else return this.houses;
       } else return this.houses;
     },
 
@@ -64,9 +85,9 @@ export default {
     },
   },
   watch: {
-    selectedDong: function () {
-      this.filterOp = this.selectedDong;
+    filterOption: function () {
       console.log(this.filteredHouses);
+      this.filterOp = this.filterOption;
       // this.filterHouse();
     },
     // currentPage: function () {

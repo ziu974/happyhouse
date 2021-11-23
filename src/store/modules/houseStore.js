@@ -9,10 +9,14 @@ const houseStore = {
     sidos: [{ value: null, text: "시/도" }],
     guguns: [{ value: null, text: "구/군" }],
     dongs: [{ value: null, text: "동" }],
-    filterOption: {
+    filterOptions: {
       selectedDong: Number,
+      aptnameKeyword: String,
+      priceRange: [Number, Number],
+      sortPrice: Boolean,
     },
-    selectedDong: Number,
+    filterOption: null,
+    // selectedDong: Number,
     houses: [],
     filteredHouses: [],
     house: null,
@@ -50,10 +54,14 @@ const houseStore = {
       //! 이 mutation의 호출 (HouseSearchBar.vue의 methods.gugunList()부분을 보자)
       state.guguns = [{ value: null, text: "구/군" }]; // 초기값으로
     },
-    CLEAR_DONG_LIST(state) {
-      state.selectedDong = null;
-      state.dongs = [{ value: null, text: "(헷)" }]; // 초기값으로
+    CLEAR_FILTER_OPTION(state) {
+      state.filterOption = null;
+      state.dongs = [{ value: null, text: "동 선택" }]; // 초기값으로
     },
+    // CLEAR_DONG_LIST(state) {
+    //   state.selectedDong = null;
+    //   state.dongs = [{ value: null, text: "동 선택" }]; // 초기값으로
+    // },
     CLEAR_HOUSE_LIST(state) {
       state.houses = null;
     },
@@ -68,11 +76,15 @@ const houseStore = {
       state.house = house;
       state.selectedHouse = house;
     },
-    SET_DONG_FILTER(state, dongCode) {
-      console.log("필터링(동별): " + dongCode);
-      // state.filterOption.selectedDong = dongCode;
-      state.selectedDong = dongCode;
+    SET_FILTER_OPTION(state, filterObj) {
+      console.log(filterObj);
+      state.filterOption = filterObj;
     },
+    // SET_DONG_FILTER(state, dongCode) {
+    //   console.log("필터링(동별): " + dongCode);
+    //   // state.filterOption.selectedDong = dongCode;
+    //   state.selectedDong = dongCode;
+    // },
   },
 
   actions: {

@@ -12,14 +12,17 @@
       </fade-transition>
     </main>
     <footer-comp name="footer"></footer-comp>
+    <!-- <login-modal :show.sync="showLoginModal" body-classes="p-0" modal-classes="modal-dialog-centered modal-sm"> </login-modal> -->
   </div>
 </template>
 
 <script>
+// import { mapState } from "vuex";
 // import NaviBar from "./components/layout/NaviBar.vue";
 import NavigationBar from "./components/layout/AppHeader.vue";
 import { FadeTransition } from "vue2-transitions";
 import FooterComp from "./components/layout/AppFooter.vue";
+// import LoginModal from "@/components/user/LoginModal.vue";
 
 export default {
   name: "App",
@@ -28,6 +31,10 @@ export default {
     NavigationBar,
     FadeTransition,
     FooterComp,
+    // LoginModal,
+  },
+  computed: {
+    // ...mapState("rootStore", ["showLoginModal"]),
   },
 };
 </script>

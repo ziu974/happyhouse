@@ -1,12 +1,24 @@
 <template>
-  <b-container class="bv-example-row" v-if="house">
+  <div v-if="house">
+    <h3 class="mb-4">{{ house.아파트 }}</h3>
+    <!-- <b-img :src="require('@/assets/apt.png')" fluid-grow></b-img> -->
+    <p class="description text-left">
+      일련번호 : {{ house.일련번호 }} <br />
+      아파트 이름 : {{ house.아파트 }}<br />
+      법정동 : {{ house.법정동 }} <br />층수 : {{ house.층 }} <br />
+      거래금액 : {{ (parseInt(house.거래금액.replace(",", "")) * 10000) | price }}원<br />
+      건축년도: {{ house.건축년도 }}(년)<br />
+      전용면적: {{ Math.round(house.전용면적 * 100) / 100 }} m<sup>2</sup> ({{ Math.round((house.전용면적 / 3.3) * 10) / 10 }}평)<br />
+    </p>
+  </div>
+  <!-- <b-container class="bv-example-row" v-if="house">
     <b-row>
       <b-col
         ><h3>{{ house.아파트 }}</h3></b-col
       >
     </b-row>
     <b-row class="mb-2 mt-1">
-      <b-col><b-img :src="require('@/assets/apt.png')" fluid-grow></b-img> <kakao-map></kakao-map></b-col>
+      <b-col><b-img :src="require('@/assets/apt.png')" fluid-grow></b-img></b-col>
     </b-row>
     <b-row>
       <b-col>
@@ -29,12 +41,12 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col>
-        <!-- 숫자처리 -> n만원을 원으로 바꾸고(","제거 후 만 곱하기), 다시 filter적용 -->
-        <b-alert show variant="danger">거래금액 : {{ (parseInt(house.거래금액.replace(",", "")) * 10000) | price }}원</b-alert>
+      <b-col> -->
+  <!-- 숫자처리 -> n만원을 원으로 바꾸고(","제거 후 만 곱하기), 다시 filter적용 -->
+  <!-- <b-alert show variant="danger">거래금액 : {{ (parseInt(house.거래금액.replace(",", "")) * 10000) | price }}원</b-alert>
       </b-col>
-    </b-row>
-    <div class="col-md-6">
+    </b-row> -->
+  <!-- <div class="col-md-6">
       <div class="card bg-default shadow border-0">
         <img class="card-img-top" data-src="img/theme/img-1-1200x1000.jpg" src="img/theme/img-1-1200x1000.jpg" lazy="loaded" />
         <blockquote class="card-blockquote">
@@ -48,20 +60,20 @@
           </p>
         </blockquote>
       </div>
-    </div>
-  </b-container>
+    </div> -->
+  <!-- </b-container> -->
 </template>
 
 <script>
 import { mapState } from "vuex";
 
-import KakaoMap from "@/components/house/map/HouseMap.vue";
+// import KakaoMap from "@/components/house/map/HouseMap.vue";
 // const houseStore = "houseStore";
 
 export default {
   name: "HouseDetail",
   components: {
-    KakaoMap,
+    // KakaoMap,
   },
   // vuex의 state에서 house객체 data를 가져오자
   computed: {

@@ -10,16 +10,8 @@
         <b-button variant="outline-primary" @click="listArticle">목록</b-button>
       </b-col>
       <b-col class="text-right">
-        <b-button
-          variant="outline-info"
-          size="sm"
-          @click="moveModifyArticle"
-          class="mr-2"
-          >글수정</b-button
-        >
-        <b-button variant="outline-danger" size="sm" @click="deleteArticle"
-          >글삭제</b-button
-        >
+        <b-button variant="outline-info" size="sm" @click="moveModifyArticle" class="mr-2">글수정</b-button>
+        <b-button variant="outline-danger" size="sm" @click="deleteArticle">글삭제</b-button>
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -52,8 +44,7 @@ export default {
   },
   computed: {
     message() {
-      if (this.article.content)
-        return this.article.content.split("\n").join("<br>");
+      if (this.article.content) return this.article.content.split("\n").join("<br>");
       return "";
     },
     // changeDateFormat() {

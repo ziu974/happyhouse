@@ -55,6 +55,9 @@ const houseStore = {
       state.guguns = [{ value: null, text: "구/군" }]; // 초기값으로
     },
     CLEAR_FILTER_OPTION(state) {
+      // ? CLEAR_HOUSE_LIST의 동작인데.. 이렇게 2개 중복되게 해도 괜찮을까..
+      state.houses = null;
+
       state.filterOption = null;
       state.dongs = [{ value: null, text: "동 선택" }]; // 초기값으로
     },

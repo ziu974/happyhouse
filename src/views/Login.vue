@@ -49,7 +49,7 @@
                   placeholder="Username"
                   addon-left-icon="ni ni-single-02"
                   @keyup.enter="confirm"
-                  ref="userid"
+                  refs="userid"
                 >
                 </base-input>
                 <base-input
@@ -61,7 +61,7 @@
                   placeholder="Password"
                   addon-left-icon="ni ni-lock-circle-open"
                   @keyup.enter="confirm"
-                  ref="userpwd"
+                  refs="userpwd"
                 >
                 </base-input>
                 <base-checkbox> Remember me </base-checkbox>

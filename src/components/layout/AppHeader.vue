@@ -152,7 +152,7 @@
             userInfo.userid
           }})님 환영합니다.</b-nav-item
         > -->
-        <router-link to="/profile" class="nav-link" v-if="userInfo">
+        <router-link to="/user/mypage" class="nav-link" v-if="userInfo">
           <b-avatar
             class="align-self-center mr-1"
             size="2rem"
@@ -166,18 +166,16 @@
           <span class="nav-link-inner--text"></span>
           <span class="nav-link-inner--text">Already a member?</span>
         </a> -->
-        <base-dropdown tag="li" class="nav-item" v-else>
-          <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button">
-            <i class="ni ni-collection d-lg-none"></i>
-
-            <span class="nav-link-inner--text" v-if="userInfo">Hello, {{ userInfo.name }}!</span>
-            <span class="nav-link-inner--text" v-else>Already a member?</span>
-          </a>
-          <router-link to="/landing" class="dropdown-item">Landing</router-link>
+        <!-- <base-dropdown tag="li" class="nav-item" v-else> -->
+        <a slot="title" href="#" class="nav-link" data-toggle="dropdown" role="button" v-else>
+          <i class="ni ni-collection d-lg-none"></i>
+          <span class="nav-link-inner--text">Already a member?</span>
+        </a>
+        <!-- <router-link to="/landing" class="dropdown-item">Landing</router-link>
           <router-link to="/profile" class="dropdown-item">Profile</router-link>
           <router-link to="/login" class="dropdown-item">Login</router-link>
-          <router-link to="/register" class="dropdown-item">Register</router-link>
-        </base-dropdown>
+          <router-link to="/register" class="dropdown-item">Register</router-link> -->
+        <!-- </base-dropdown> -->
         <li class="nav-item d-none d-lg-block ml-lg-1">
           <!-- <a href="https://www.creative-tim.com/product/vue-argon-design-system" target="_blank" rel="noopener" class="btn btn-neutral btn-icon">
             <span class="btn-inner--icon">
@@ -273,7 +271,11 @@ export default {
 
     navColorSetting: function () {
       // console.log(this.$route.path);
-      return this.$route.path === "/" ? "" : "primary";
+      let setting = "";
+      if (this.$route.path === "/") return setting;
+      else if (this.$route.path.includes("/qna/write") || this.$route.path.includes("/qna/update") || this.$route.path === "/profile") return "";
+      else return "primary";
+      // return this.$route.path === "/" ? "" : "primary";
     },
   },
   methods: {

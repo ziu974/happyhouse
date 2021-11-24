@@ -62,8 +62,13 @@ export default {
         } else if (this.filterOp.type === "aptname") {
           return this.houses.filter((house) => house.아파트.includes(this.filterOp.value.trim()));
         } else if (this.filterOp.type === "price") {
-          console.log("으악2");
-          return this.houses.filter((house) => house.거래가 === "ㅏ");
+          console.log(this.filterOp.value);
+          const min = parseInt(this.filterOp.value.min);
+          const max = parseInt(this.filterOp.value.max);
+          // console.log(min);
+          // console.log(this.houses[0].거래금액.replace(",", ""));
+          // return this.houses;
+          return this.houses.filter((house) => house.거래금액.replace(",", "") >= min && house.거래금액.replace(",", "") <= max);
           // } else if (this.filterOp.sortPrice) {
           //   return this.houses.sort((a, b) => {
           //     return b.거래가 - a.거래가;

@@ -1,21 +1,36 @@
 <template>
-  <div class="regist">
+  <div>
     <div v-if="this.modifyAnswer != null" class="regist_form">
-      <b-textarea id="answer" name="answer" v-model="modifyAnswer.content" cols="35" rows="2" :disabled="userInfo"></b-textarea>
-      <b-button class="small" @click="updateAnswerCancel">취소</b-button>
-      <b-button class="small" @click="updateAnswer">수정</b-button>
-    </div>
-    <div v-else class="regist_form">
       <textarea
-        id="answer"
+        id="modanswer"
         class="form-control form-control-alternative"
         name="answer"
-        v-model="content"
+        v-model="modifyAnswer.content"
         cols="35"
         rows="2"
         style="border-radius: 10px"
       ></textarea>
-      <base-button type="primary" @click="registAnswer">등록</base-button>
+      <div class="cbtn"><span @click="updateAnswer">수정 완료</span> | <span @click="updateAnswerCancel">취소</span></div>
+      <!-- <b-button class="small" @click="updateAnswerCancel">취소</b-button>
+      <b-button class="small" @click="updateAnswer">수정</b-button> -->
+    </div>
+    <div v-else class="regist_form">
+      <b-row>
+        <b-col align-self="baseline">
+          <textarea
+            id="answer"
+            class="form-control ml-3 mr-2"
+            name="answer"
+            v-model="content"
+            cols="35"
+            rows="2"
+            style="border-radius: 10px"
+          ></textarea>
+        </b-col>
+        <b-col align-self="center" cols="auto">
+          <base-button type="primary" @click="registAnswer">등록</base-button>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
@@ -91,9 +106,9 @@ export default {
 </script>
 
 <style scoped>
-.regist {
+/* .regist {
   padding: 10px;
-}
+} */
 /* .regist_form {
   text-align: left;
   border-radius: 5px;
@@ -102,24 +117,18 @@ export default {
 } */
 
 textarea {
-  width: 90%;
-  padding: 10px 20px;
+  /* width: 100%; */
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 4px;
   box-sizing: border-box;
   color: #787878;
   font-size: medium;
 }
-
-button {
-  float: right;
-}
-
-button.small {
-  width: 60px;
-  font-size: small;
-  font-weight: bold;
+.cbtn {
+  text-align: right;
+  color: steelblue;
+  margin: 5px 0px;
 }
 </style>

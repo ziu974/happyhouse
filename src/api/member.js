@@ -25,6 +25,11 @@ async function createId(userInfo, success, fail) {
   await api.post(`/user/register`, JSON.stringify(userInfo)).then(success).catch(fail);
 }
 
+async function getUserPassword(params, success, fail) {
+  console.log(params);
+  await api.post(`/user/findpw`, JSON.stringify(params)).then(success).catch(fail);
+}
+
 // function logout(success, fail)
 
-export { login, findById, modifyInfo, deleteId, createId };
+export { login, findById, modifyInfo, deleteId, createId, getUserPassword };

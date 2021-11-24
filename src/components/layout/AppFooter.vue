@@ -1,6 +1,6 @@
 <template>
   <footer class="footer has-cards">
-    <div class="container container-lg"></div>
+    <!-- <div class="container container-lg"></div> -->
     <div class="container my-md">
       <hr />
       <div class="row align-items-center justify-content-md-between">

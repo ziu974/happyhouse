@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Landing.vue";
-// import Instagram from "@/views/Instagram.vue";
+import Home from "@/views/Home.vue";
 
 import Guide from "@/views/Guide.vue";
 import AboutUs from "@/views/AboutUs.vue";
@@ -34,7 +33,7 @@ import store from "@/store/index.js";
 import Test from "@/components/fund/VueFormWizardEx.vue";
 // import Test from "@/components/fund/Temp.vue";
 import Login from "@/views/Login.vue";
-import Register from "@/views/Register.vue";
+// import Register from "@/views/Register.vue";
 // import Profile from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
@@ -52,7 +51,7 @@ const onlyAuthUser = async (to, from, next) => {
   if (checkUserInfo === null) {
     alert("로그인이 필요한 페이지입니다..");
     // next({ name: "SignIn" });
-    router.push({ name: "Login" });
+    // router.push({ name: "Login" });
   } else {
     console.log("로그인 했다.");
     next();
@@ -87,8 +86,8 @@ const routes = [
     component: Member,
     children: [
       {
-        path: "signin",
-        name: "SignIn",
+        path: "login",
+        name: "Login",
         component: MemberLogin,
       },
       {
@@ -181,6 +180,7 @@ const routes = [
     name: "House",
     component: House,
   },
+  //! TODO 삭제
   {
     path: "/uitesting",
     name: "Test",
@@ -190,16 +190,6 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
-  },
-  {
-    path: "/register",
-    name: "Register",
-    component: Register,
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: MemberMyPage,
   },
 ];
 

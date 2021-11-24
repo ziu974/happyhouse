@@ -4,6 +4,7 @@ import { findById } from "../../api/member";
 import { modifyInfo } from "@/api/member.js"; // 회원수정
 import { deleteId } from "@/api/member.js"; // 회원탈퇴
 import { createId } from "@/api/member.js"; // 회원탈퇴
+import { getUserPassword } from "@/api/member.js"; // 비밀번호 찾기
 
 const memberStore = {
   namespaced: true,
@@ -11,6 +12,7 @@ const memberStore = {
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    foundPassword: null,
   },
   getters: {
     checkUserInfo: function (state) {
@@ -28,6 +30,9 @@ const memberStore = {
       state.isLogin = true;
       // 수정된 회원정보 갱신
       state.userInfo = userInfo;
+    },
+    SET_FOUND_PASSWORD(state, pw) {
+      state.foundPassword = pw;
     },
   },
   // TODO + (여기에서는 아니지만,CORS 문제 해결 (플러그인 쓰는 임시방편 말고)) -> 서버코드의 WebConfig.java 보자
@@ -110,6 +115,15 @@ const memberStore = {
           commit("SET_USER_INFO", null);
         } else {
           console.log(response.data);
+        }
+      });
+    },
+    findPassword({ commit }, params) {
+      getUserPassword(params, (response) => {
+        if (response.data === "success") {
+          commit("SET_FOUND_PASSWORD", response.data);
+        } else {
+          commit("SET_FOUND_PASSWORD", null);
         }
       });
     },

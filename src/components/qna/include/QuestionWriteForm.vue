@@ -1,31 +1,55 @@
 <template>
-  <b-row class="mb-1">
-    <b-col style="text-align: left">
-      <b-form @submit="onSubmit" @reset="onReset">
-        <b-form-group id="userid-group" label="작성자:" label-for="userid">
-          <b-form-input id="userid" :disabled="true" v-model="userid" type="text" required placeholder="작성자 입력..."></b-form-input>
-        </b-form-group>
+  <card shadow class="mb-5">
+    <b-row class="mb-1">
+      <b-col style="text-align: left">
+        <b-form @submit="onSubmit" @reset="onReset">
+          <b-form-group id="userid-group" label="작성자:" label-for="userid">
+            <b-form-input id="userid" :disabled="true" v-model="question.userid" type="text" required placeholder="작성자 입력..."></b-form-input>
+          </b-form-group>
 
-        <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
-          <b-form-input id="subject" v-model="question.subject" type="text" required placeholder="제목 입력..."></b-form-input>
-        </b-form-group>
+          <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
+            <b-form-input
+              id="subject"
+              v-model="question.subject"
+              type="text"
+              placeholder="제목 입력..."
+              refs="subject"
+              :state="state1"
+            ></b-form-input>
+          </b-form-group>
 
-        <b-form-group id="content-group" label="내용:" label-for="content" description="내용을 입력하세요.">
-          <b-form-textarea id="content" v-model="question.content" placeholder="내용 입력..." rows="10" max-rows="15"></b-form-textarea>
-        </b-form-group>
-
-        <b-button type="submit" variant="primary" class="m-1" v-if="this.type === 'register'">글작성</b-button>
-        <b-button type="submit" variant="primary" class="m-1" v-else>글수정</b-button>
-        <b-button type="reset" variant="danger" class="m-1">초기화</b-button>
-      </b-form>
-    </b-col>
-  </b-row>
+          <b-form-group id="content-group" label="내용:" label-for="content" description="내용을 입력하세요.">
+            <b-textarea
+              id="content"
+              class="form-control"
+              v-model="question.content"
+              placeholder="내용 입력..."
+              rows="10"
+              refs="content"
+              :state="state2"
+            ></b-textarea>
+          </b-form-group>
+        </b-form>
+      </b-col>
+    </b-row>
+    <b-row align-v="end">
+      <b-col></b-col>
+      <b-col cols="auto">
+        <base-button type="primary" class="m-1" v-if="this.type === 'register'" @click="onSubmit">글작성</base-button>
+        <base-button type="primary" class="m-1" v-else>글수정</base-button>
+        <base-button type="primary" outline class="m-1" @click="moveList">취소</base-button>
+      </b-col>
+    </b-row>
+  </card>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import http from "@/util/http-common";
+import Card from "../../ui/Card.vue";
 
 export default {
+  components: { Card },
   name: "WriteForm",
   data() {
     return {
@@ -36,10 +60,25 @@ export default {
         content: "",
       },
       isUserid: false,
+      err: false,
+      state1: null,
+      state2: null,
     };
   },
   props: {
     type: { type: String },
+  },
+  computed: {
+    ...mapState("memberStore", ["userInfo"]),
+    // state() {
+    //   return this.question.subject.length > 0 && this.question.content.length > 0;
+    // },
+    // invalidFeedback() {
+    //   if (this.question.subject || this.question.content) {
+    //     return "Enter at least 4 characters.";
+    //   }
+    //   return "Please enter something.";
+    // },
   },
   created() {
     if (this.type === "modify") {
@@ -52,26 +91,40 @@ export default {
         this.userid = this.question.userid;
       });
       this.isUserid = true;
-    }
+    } else this.question.userid = this.userInfo.userid;
+    //this.state1 = null;
+    //this.state2 = null;
   },
   methods: {
     onSubmit(event) {
+      console.log("lskjf");
       event.preventDefault();
 
-      let err = true;
-      let msg = "";
-      !this.question.userid && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userid.focus());
-      err && !this.question.subject && ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
-      err && !this.question.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+      if (!this.question.subject) {
+        this.state1 = false;
+      }
+      if (!this.question.content) {
+        this.state2 = false;
+      }
 
-      if (!err) alert(msg);
-      else this.type === "register" ? this.registQuestion() : this.modifyQuestion();
+      if (this.question.subject && this.question.content) this.type === "register" ? this.registQuestion() : this.modifyQuestion();
+
+      // let err = true;
+      // let msg = "";
+      // !this.question.userid;
+      // err && !this.question.subject && ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
+      // err && !this.question.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+
+      // if (!err) alert(msg);
+      // else this.type === "register" ? this.registQuestion() : this.modifyQuestion();
     },
     onReset(event) {
       event.preventDefault();
       this.question.no = 0;
       this.question.subject = "";
       this.question.content = "";
+      this.state1 = null;
+      this.state2 = null;
       this.$router.push({ name: "QnaList" });
     },
     registQuestion() {

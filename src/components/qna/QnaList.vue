@@ -12,8 +12,22 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-table striped hover :items="posts" :fields="fields" @row-clicked="moveView"> </b-table>
-        <b-pagination v-model="currentPage" :total-rows="totalCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick" align="center"></b-pagination>
+        <b-table striped hover :items="posts" :fields="fields" @row-clicked="moveView" show-empty>
+          <template #cell(answered)="data">
+            <badge type="secondary" v-if="data.item.answered">answered</badge>
+            <badge type="default" v-else>waiting</badge>
+            <!-- <b-button size="sm" class="mr-1"> Info modal </b-button>
+            <b-button size="sm"> Details{{ row.No }} </b-button> -->
+          </template>
+        </b-table>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalCount"
+          :per-page="perPage"
+          aria-controls="my-table"
+          @page-click="pageClick"
+          align="center"
+        ></b-pagination>
       </b-col>
     </b-row>
     <!-- Pagination 적용 부분 -->
@@ -32,12 +46,20 @@ export default {
     return {
       posts: [],
       fields: [
-        { key: "no", label: "글번호", tdClass: "tdClass" },
-        { key: "subject", label: "제목", tdClass: "tdSubject" },
-        { key: "userid", label: "작성자", tdClass: "tdClass" },
-        { key: "regtime", label: "작성일", tdClass: "tdClass" },
-        { key: "hit", label: "조회수", tdClass: "tdClass" },
-        { key: "bg", label: "시험삼아", tdClass: "tdClass" },
+        { key: "no", label: "No.", tdClass: "tdClass" },
+        { key: "subject", label: "Title", tdClass: "tdSubject" },
+        { key: "userid", label: "User", tdClass: "tdClass" },
+        { key: "regtime", label: "Time", tdClass: "tdClass" },
+        { key: "hit", label: "Viewed", tdClass: "tdClass" },
+        {
+          key: "answered",
+          label: "Answered",
+          tdClass: "tdClass",
+          // formatter: (value) => {
+          //   return value ? "Answered" : "waiting..";
+          // },
+          sortable: true,
+        },
       ],
       // pagination 관련
       perPage: 10,
@@ -70,7 +92,7 @@ export default {
           console.log(data);
           if (data === "") {
             // 글 없을 떄
-            this.posts = [{ no: "1", subject: "글번호", userid: "tdClass", regtime: "234", hit: "12" }];
+            // this.posts = [{ no: "1", subject: "글번호", userid: "tdClass", regtime: "234", hit: "12"}];
           } else {
             this.totalCount = data.total;
             this.posts = data.list;

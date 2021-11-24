@@ -1,6 +1,7 @@
 <template>
   <b-container class="bv-example-row bv-example-row-flex-cols">
     <card shadow>
+      <b-row class="mt-2 mb-4 text-center" align-h="center"><h3 style="color: #8898aa">Search Options</h3></b-row>
       <b-row class="mt-4 mb-4 text-center">
         <!-- ? https://bootstrap-vue.org/docs/components/form-select -->
         <b-col class="sm-3">
@@ -25,18 +26,24 @@
           <base-radio v-model="radios.radio" name="priceRadio">가격범위</base-radio>
         </b-col>
         <b-col class="sm-3">
+          <!-- :value="{ min: this.minP, max: this.maxP }" -->
           <base-slider
+            v-if="sliderVal"
+            v-bind:sliderVal="sliderVal"
             v-model="sliders.priceSlider"
-            :range="{ min: this.minP, max: this.maxP }"
-            @input="radios.radio = 'priceRadio'"
+            :customval="sliderVal"
+            :range="{ min: sliderVal[0], max: sliderVal[1] }"
             :options="sliderOptions"
-            refs="priceSlider"
+            @input="filterHouseByPrice"
+            connect="true"
+            ref="priceSlider"
+            class="mt-4"
           ></base-slider>
-          <b-row>
-            <b-col
-              ><small>Value (만원): {{ this.$refs.priceSlider }} ~ {{}}</small>
-            </b-col>
-          </b-row>
+          <!-- @input="radios.radio = 'priceRadio'" -->
+          <div class="text-left text-muted" v-if="sliderVal">
+            <small>최저가: {{ this.sliderVal[0] }} | 최고가: {{ this.sliderVal[1] }} (만원)</small>
+            <!-- <small>Value (만원): {{ this.$refs.priceSlider }} ~ {{}}</small> -->
+          </div>
         </b-col>
       </b-row>
       <b-row class="mt-4 mb-4" align-h="center">
@@ -58,10 +65,10 @@
       <b-row>
         <b-col
           >가격정렬
-          <!-- <base-switch v-model="switches.sortOn"></base-switch> -->
+          <base-switch v-model="switches.sortOn"></base-switch>
         </b-col>
         <b-col class="sm-3" align="right">
-          <b-button variant="outline-warning" @click="filterHouseByAptname">filter & search</b-button>
+          <b-button variant="outline-warning" @click="clearOptions">clear</b-button>
         </b-col>
       </b-row>
       <!-- </div> -->
@@ -73,6 +80,7 @@
 ////  import http from "@/util/http-common.js";
 // * Map 사용 (여기는 "...map*"하면 자동완성되는 부분임 ㅎㅎ)
 import { mapState, mapActions, mapMutations } from "vuex";
+// import BaseSlider from "@/components/ui/BaseSlider";
 
 const houseStore = "houseStore";
 
@@ -84,14 +92,14 @@ export default {
       //// sidos: [{ value: null, text: "선택하세요" }],
       gugunCode: null,
       dongCode: null,
-      minP: 0,
-      // maxP: 0,
+      sliderVal: null,
       sliders: {
         priceSlider: [0, 0],
       },
       radios: {
         radio: "dongRadio",
       },
+      radioDisabled: true,
       options: {
         dongOp: false,
         priceOp: true,
@@ -102,21 +110,37 @@ export default {
         sortOff: false,
       },
       sliderOptions: {
-        step: 10,
-        margin: 10,
+        // start: [0, 90],
+        step: 1000,
+        // value: { min: this.minP, max: this.maxP },
+        // range: { min: 0, max: 1000000 },
+        // margin: 10,
         tooltips: true,
+        // range: {
+        //   min: 0,
+        //   max: 100,
+        // },
+        format: {
+          from: Number,
+          to: function (value) {
+            return parseInt(value) + "만원";
+          },
+        },
         // pips: {
         //   mode: "range",
         //   density: 5,
         //   type: "small",
         // },
-        keyboardSupport: true, // Default true
-        keyboardDefaultStep: 5, // Default 10
-        keyboardPageMultiplier: 100, // Default 5
-        keyboardMultiplier: 50, // Default 1
+        // keyboardSupport: true, // Default true
+        // keyboardDefaultStep: 5, // Default 10
+        // keyboardPageMultiplier: 100, // Default 5
+        // keyboardMultiplier: 50, // Default 1
       },
     };
   },
+  // components: {
+  //   BaseSlider,
+  // },
   // state의 값은 주로 computed에서 처리한다고 했음
   computed: {
     //// sidos() {
@@ -125,17 +149,17 @@ export default {
     ////},
     // 위의 것을, Map을 써서 더 간단하게 해보자 (Mapper를 사용하면 이렇게 여러개를 간편하게 구현할 수 있음)
     ...mapState(houseStore, ["sidos", "guguns", "houses", "dongs", "selectedDong"]), //+ 위의 import 부분
-    maxP: function () {
-      let max;
-      if (this.houses) {
-        for (let i = 0; i < this.houses.length; i++) {
-          if (max == null || parseInt(this.houses[i].거래금액) > parseInt(max)) max = this.houses[i].거래금액;
-        }
-        console.log(max);
-        // this.sliders.this.sliders.priceSlider[1] = parseInt(max);
-        return parseInt(max);
-      } else return 1000;
-    },
+    // maxP: function () {
+    //   let max = 1234;
+    //   if (this.houses) {
+    //     for (let i = 0; i < this.houses.length; i++) {
+    //       if (max == null || parseInt(this.houses[i].거래금액) > parseInt(max)) max = this.houses[i].거래금액;
+    //       console.log(this.houses[i].거래금액);
+    //     }
+    //     // this.sliders.this.sliders.priceSlider[1] = parseInt(max);
+    //   }
+    //   return max;
+    // },
     // minP: function () {
     //   let min;
     //   for (let i = 0; i < this.houses.length; i++) {
@@ -145,8 +169,33 @@ export default {
     //   return parseInt(min);
     //   //// return Math.min.apply(null, this.houses.);
     // },
-    radioDisabled: function () {
-      return this.houses == null;
+
+    //todo radioDisabled: function () {
+    //   return this.houses == null;
+    // },
+  },
+  watch: {
+    houses: function () {
+      //! 이렇게 들어가야 계속 destroy되었다가 매번 새로운 slider가 생성될 수 있다!
+      // (계속 새로 생성해야되는 이유: range 속성은 create() 때만 가능하기 떄문에)
+      this.sliderVal = null;
+      if (this.houses) {
+        this.radioDisabled = false;
+        let max = "";
+        for (let i = 0; i < this.houses.length; i++) {
+          if (max == null || this.houses[i].거래금액 > max) max = this.houses[i].거래금액;
+          // if (min == null || this.houses[i].거래금액 < min) min = this.houses[i].거래금액;
+        }
+        let min = max;
+        for (let i = 0; i < this.houses.length; i++) {
+          // if (max == null || this.houses[i].거래금액 > max) max = this.houses[i].거래금액;
+          if (min == null || this.houses[i].거래금액 < min) min = this.houses[i].거래금액;
+        }
+        max = parseInt(max.replace(",", ""));
+        min = parseInt(min.replace(",", ""));
+
+        this.sliderVal = [min, max];
+      } else this.radioDisabled = true;
     },
   },
   methods: {
@@ -199,8 +248,29 @@ export default {
       if (this.dongCode) this.SET_FILTER_OPTION({ type: "dong", value: this.dongCode.slice(5, 10) });
       //TODO if (this.dongCode) this.SET_DONG_FILTER(this.dongCode.slice(5, 10));
     },
+    //* 11.25 아파트 가격 범위 설정
+    filterHouseByPrice(event) {
+      console.log(event);
+      this.SET_FILTER_OPTION({ type: "price", value: { min: event[0].replace("만원", ""), max: event[1].replace("만원", "") } });
+      this.radios.radio = "priceRadio";
+    },
     //* 11.24 아파트 가격 내림차순 정렬
     sortHouseByPrice() {},
+    //* 11.25 옵션 초기화
+    clearOptions() {
+      this.CLEAR_FILTER_OPTION();
+      // 여기는 배치를 여기서 해야 함(not computed). 아파트가 그냥 없을 수도 있기 때문에, 그 떄는 선택한 시/구군을 내버려 둬야함
+      this.sidoCode = null;
+      this.gugunCode = null;
+      this.dongCode = null;
+      this.minP = 0;
+      // this.maxP: 0,
+      this.options.dongOp = false;
+      this.options.priceOp = false;
+      this.options.aptnameOp = "";
+
+      this.radios.radio = "dongRadio";
+    },
   },
   created() {
     //// http

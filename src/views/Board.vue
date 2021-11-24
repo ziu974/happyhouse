@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 120px">
+  <div style="margin-top: 140px">
     <b-container class="bv-example-row mt-3 text-center">
       <h1 class="display-3">Board</h1>
       <!-- <h3 class="underline-hotpink"><b-icon icon="journals"></b-icon> Board Service</h3> -->

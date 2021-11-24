@@ -7,7 +7,7 @@
     <b-td>{{ hit }}</b-td>
     <b-td>{{ userid }}</b-td>
     <b-td>{{ regtime }}</b-td>
-    <b-td><badge type="default">Default</badge></b-td>
+    <!-- <b-td>{{ answerCnt }}</b-td> -->
   </b-tr>
 </template>
 
@@ -16,12 +16,16 @@
 
 export default {
   name: "QuestionListRow",
+  data() {
+    // answerCnt: Number;
+  },
   props: {
     no: Number,
     userid: String,
     subject: String,
     hit: Number,
     regtime: String,
+    answer: String,
   },
   computed: {
     // changeDateFormat() {

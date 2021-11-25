@@ -68,6 +68,9 @@ const houseStore = {
     CLEAR_HOUSE_LIST(state) {
       state.houses = null;
     },
+    CLEAR_DETAIL_HOUSE(state) {
+      state.selectedHouse = null;
+    },
     SET_HOUSE_LIST(state, houses) {
       state.houses = houses;
       // state.filteredHouses = houses;
@@ -76,7 +79,7 @@ const houseStore = {
       state.filteredHouses = filteredHouses;
     },
     SET_DETAIL_HOUSE(state, house) {
-      state.house = house;
+      //TODO 삭제or살리기 state.house = house;
       state.selectedHouse = house;
     },
     SET_FILTER_OPTION(state, filterObj) {

@@ -11,6 +11,7 @@ const memberStore = {
   state: {
     isLogin: false,
     isLoginError: false,
+    signupResult: "",
     userInfo: null,
     foundPassword: null,
   },
@@ -31,8 +32,11 @@ const memberStore = {
       // 수정된 회원정보 갱신
       state.userInfo = userInfo;
     },
-    SET_FOUND_PASSWORD(state, pw) {
+    SET_FOUND_PASSWORD: (state, pw) => {
       state.foundPassword = pw;
+    },
+    SET_SIGNUP_RESULT: (state, response) => {
+      state.signupResult = response;
     },
   },
   // TODO + (여기에서는 아니지만,CORS 문제 해결 (플러그인 쓰는 임시방편 말고)) -> 서버코드의 WebConfig.java 보자
@@ -84,17 +88,21 @@ const memberStore = {
     },
     createUserAccount({ commit }, userInfo) {
       createId(userInfo, (response) => {
+        console.log("니ㅏ런");
+        console.log(response);
         if (response.data === "success") {
           console.log(commit + "성공");
+          commit("SET_SIGNUP_RESULT", response);
         } else {
           alert("회원가입 실패");
-          console.log(response.data);
+          commit("SET_SIGNUP_RESULT", true);
         }
       });
     },
     updateUserInfo({ commit }, userInfo) {
       modifyInfo(userInfo, (response) => {
         if (response.data.message === "success") {
+          console.log(userInfo);
           commit("SET_USER_INFO", userInfo);
           // TODO 이 부분 필요할까? => 토큰 갱신?
           // let token = response.data["access-token"];

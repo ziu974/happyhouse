@@ -9,8 +9,8 @@
     </div>
 
     <template slot="footer">
-      <base-button type="white" @click="deleteUser">Yes, Delete Anyway</base-button>
-      <base-button type="link" text-color="white" class="ml-auto" @click="modals.deleteUserModal = false"> Cancel </base-button>
+      <base-button type="white" @click="deletePost">Yes, Delete Anyway</base-button>
+      <base-button type="link" text-color="white" class="ml-auto" @click="modals.deletePostModal = false"> Cancel </base-button>
     </template>
   </modal>
 </template>
@@ -41,15 +41,26 @@ export default {
     },
   },
   methods: {
-    deleteUser() {
-      http.delete(`/qna/${this.$route.params.no}`).then(({ data }) => {
-        if (data === "success") {
-          // 현재 route를 /list로 변경.
-          this.$router.replace({
-            name: "QnaList",
-          });
-        } else alert("삭제 처리시 문제가 발생했습니다.");
-      });
+    deletePost() {
+      console.log(this.$route.params);
+      if (this.$route.path.includes("qna")) {
+        http.delete(`/qna/${this.$route.params.no}`).then(({ data }) => {
+          if (data === "success") {
+            // 현재 route를 /list로 변경.
+            this.$router.replace({
+              name: "QnaList",
+            });
+          } else alert("삭제 처리시 문제가 발생했습니다.");
+        });
+      } else if (this.$route.path.includes("board")) {
+        http.delete(`/board/${this.$route.params.articleno}`).then(({ data }) => {
+          if (data === "success") {
+            this.$router.replace({
+              name: "BoardList",
+            });
+          } else alert("삭제 처리시 문제가 발생했습니다.");
+        });
+      }
       // this.$router.replace({
       //   name: "QnaList",
       // });

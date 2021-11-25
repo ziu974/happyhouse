@@ -15,24 +15,24 @@ import BoardList from "@/components/board/BoardList.vue";
 import BoardWrite from "@/components/board/BoardWrite.vue";
 import BoardView from "@/components/board/BoardView.vue";
 import BoardUpdate from "@/components/board/BoardUpdate.vue";
-import BoardDelete from "@/components/board/BoardDelete.vue";
+// import BoardDelete from "@/components/board/BoardDelete.vue";
 
 import Qna from "@/views/Qna.vue";
 import QnaList from "@/components/qna/QnaList";
 import QnaWrite from "@/components/qna/QnaWrite";
 import QnaView from "@/components/qna/QnaView";
 import QnaUpdate from "@/components/qna/QnaUpdate";
-import QnaDelete from "@/components/qna/QnaDelete";
+// import QnaDelete from "@/components/qna/QnaDelete";
 
 import House from "@/views/House.vue";
 
 import store from "@/store/index.js";
 
-// TODO
+// TODO 삭제
 // UI 적용부분(testing) - 여기에서 바꿔가며 테스트 중
 import Test from "@/components/fund/VueFormWizardEx.vue";
-// import Test from "@/components/fund/Temp.vue";
-import Login from "@/views/Login.vue";
+// import Test from "@/views/components/Hero.vue";
+// import Login from "@/views/Login.vue";
 // import Register from "@/views/Register.vue";
 // import Profile from "@/views/Profile.vue";
 
@@ -131,12 +131,12 @@ const routes = [
         beforeEnter: onlyAuthUser,
         component: BoardUpdate,
       },
-      {
-        path: "delete/:articleno",
-        name: "BoardDelete",
-        beforeEnter: onlyAuthUser,
-        component: BoardDelete,
-      },
+      // {
+      //   path: "delete/:articleno",
+      //   name: "BoardDelete",
+      //   beforeEnter: onlyAuthUser,
+      //   component: BoardDelete,
+      // },
     ],
   },
   {
@@ -167,12 +167,12 @@ const routes = [
         beforeEnter: onlyAuthUser,
         component: QnaUpdate,
       },
-      {
-        path: "delete/:no",
-        name: "QnaDelete",
-        beforeEnter: onlyAuthUser,
-        component: QnaDelete,
-      },
+      // {
+      //   path: "delete/:no",
+      //   name: "QnaDelete",
+      //   beforeEnter: onlyAuthUser,
+      //   component: QnaDelete,
+      // },
     ],
   },
   {
@@ -185,11 +185,6 @@ const routes = [
     path: "/uitesting",
     name: "Test",
     component: Test,
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
   },
 ];
 

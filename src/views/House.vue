@@ -18,7 +18,7 @@
           <kakao-map></kakao-map>
         </b-col>
         <b-col>
-          <tabs fill class="flex-column flex-md-row">
+          <tabs fill class="flex-column flex-md-row kr-font-light">
             <card shadow style="background-color: #e9ecef">
               <tab-pane>
                 <span slot="title">

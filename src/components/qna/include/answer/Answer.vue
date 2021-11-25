@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isShow" class="comment">
+  <div v-show="isShow" class="comment kr-font-light">
     <div class="head">
       {{ answer.userid }} <small>({{ answer.regtime }})</small> <badge pill type="default" v-if="isModifyState">수정중</badge>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <b-container class="bv-example-row mt-3">
+  <b-container class="bv-example-row mt-3 kr-text-light">
     <b-row>
       <b-col>
         <!-- <b-alert show><h3>질문글 보기</h3></b-alert> -->
@@ -24,7 +24,7 @@
     </b-row>
     <b-row class="mb-1">
       <b-col>
-        <card shadow class="card-profile" no-body style="padding-top: 30px">
+        <card shadow class="card-profile kr-font-light" no-body style="padding-top: 30px">
           <div class="mr-4"><h6 v-html="`작성일시: ${question.regtime}`" style="color: gray; font-size: smaller; text-align: end"></h6></div>
           <h3 class="mb-3" v-html="`<b>Q. ${question.subject}</b>`" style="color: #525f7f"></h3>
           <h6 v-html="`글번호: ${question.no} | 조회수: ${question.hit} | 작성자: ${question.userid} `"></h6>
@@ -95,6 +95,17 @@ export default {
     //   );
     // },
   },
+  watch: {
+    userInfo: function () {
+      if (this.userInfo) {
+        this.isWriterId = this.userInfo.userid === this.question.userid;
+        this.isAdminId = this.userInfo.userid === "admin";
+      } else {
+        this.isWriterId = false;
+        this.isAdminId = false;
+      }
+    },
+  },
   components: {
     AnswerWrite,
     Answer,
@@ -105,8 +116,10 @@ export default {
       this.question = data;
       //* 수정: 작성자id
       //* 삭제: 작성자id, 관리자id(admin)
-      this.isWriterId = this.userInfo.userid === this.question.userid;
-      this.isAdminId = this.userInfo.userid === "admin";
+      if (this.userInfo) {
+        this.isWriterId = this.userInfo.userid === this.question.userid;
+        this.isAdminId = this.userInfo.userid === "admin";
+      }
       console.log(this.question);
       //* 댓글 목록 가져오기
       this.getAnswerList(data.no);
@@ -169,9 +182,4 @@ export default {
 };
 </script>
 
-<style>
-.sdf {
-  text-align: end;
-  font-size: smaller;
-}
-</style>
+<style></style>

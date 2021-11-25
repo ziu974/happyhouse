@@ -1,5 +1,5 @@
 <template>
-  <b-container class="mt-3">
+  <b-container class="mt-3 mb-5">
     <p style="margin-bottom: 30px"><em>Edit Question Post</em></p>
     <question-write-form type="modify" />
   </b-container>

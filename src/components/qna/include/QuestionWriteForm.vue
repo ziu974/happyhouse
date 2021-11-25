@@ -1,10 +1,10 @@
 <template>
-  <card shadow class="mb-5">
+  <card shadow style="margin-bottom: 30px">
     <b-row class="mb-1">
       <b-col style="text-align: left">
         <b-form @submit="onSubmit" @reset="onReset">
           <b-form-group id="userid-group" label="작성자:" label-for="userid">
-            <b-form-input id="userid" :disabled="true" v-model="question.userid" type="text" required placeholder="작성자 입력..."></b-form-input>
+            <b-form-input id="userid" :disabled="true" v-model="question.userid" type="text"></b-form-input>
           </b-form-group>
 
           <b-form-group id="subject-group" label="제목:" label-for="subject" description="제목을 입력하세요.">
@@ -36,7 +36,7 @@
       <b-col></b-col>
       <b-col cols="auto">
         <base-button type="primary" class="m-1" v-if="this.type === 'register'" @click="onSubmit">글작성</base-button>
-        <base-button type="primary" class="m-1" v-else>글수정</base-button>
+        <base-button type="primary" class="m-1" v-else @click="onSubmit">글수정</base-button>
         <base-button type="primary" outline class="m-1" @click="moveList">취소</base-button>
       </b-col>
     </b-row>
@@ -46,10 +46,10 @@
 <script>
 import { mapState } from "vuex";
 import http from "@/util/http-common";
-import Card from "../../ui/Card.vue";
+// import Card from "../../ui/Card.vue";
 
 export default {
-  components: { Card },
+  // components: { Card },
   name: "WriteForm",
   data() {
     return {
@@ -83,10 +83,6 @@ export default {
   created() {
     if (this.type === "modify") {
       http.get(`/qna/${this.$route.params.no}`).then(({ data }) => {
-        // this.article.articleno = data.article.articleno;
-        // this.article.userid = data.article.userid;
-        // this.article.subject = data.article.subject;
-        // this.article.content = data.article.content;
         this.question = data;
         this.userid = this.question.userid;
       });
@@ -97,7 +93,6 @@ export default {
   },
   methods: {
     onSubmit(event) {
-      console.log("lskjf");
       event.preventDefault();
 
       if (!this.question.subject) {
@@ -125,7 +120,7 @@ export default {
       this.question.content = "";
       this.state1 = null;
       this.state2 = null;
-      this.$router.push({ name: "QnaList" });
+      // this.$router.push({ name: "QnaList" });
     },
     registQuestion() {
       http
@@ -162,6 +157,11 @@ export default {
         });
     },
     moveList() {
+      // this.question.no = 0;
+      // this.question.subject = "";
+      // this.question.content = "";
+      // this.state1 = null;
+      // this.state2 = null;
       this.$router.push({ name: "QnaList" });
     },
   },

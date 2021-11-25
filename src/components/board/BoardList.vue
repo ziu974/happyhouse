@@ -1,5 +1,5 @@
 <template>
-  <b-container class="bv-example-row mt-3">
+  <b-container class="bv-example-row mt-3 kr-font-light">
     <!-- <b-row>
       <b-col>
         <h1 class="display-3">Board</h1>
@@ -31,7 +31,14 @@
       <!-- <b-col v-else class="text-center">도서 목록이 없습니다.</b-col> -->
     </b-row>
     <!-- Pagination 적용 부분 -->
-    <b-pagination v-model="currentPage" :total-rows="boardCount" :per-page="perPage" aria-controls="my-table" @page-click="pageClick" align="center"></b-pagination>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="boardCount"
+      :per-page="perPage"
+      aria-controls="my-table"
+      @page-click="pageClick"
+      align="center"
+    ></b-pagination>
   </b-container>
 </template>
 

@@ -44,6 +44,24 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;700&display=swap");
+
+.kr-font-thin {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 100;
+}
+.kr-font-light {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 300;
+}
+.kr-font-regular {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 400;
+}
+.kr-font-bold {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 700;
+}
 a:hover {
   text-decoration: none;
   font-weight: bold;

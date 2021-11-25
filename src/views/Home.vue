@@ -18,15 +18,39 @@
           <div class="col px-0">
             <div class="row">
               <div class="col-lg-6">
-                <h1 class="display-2 text-white">
+                <img src="@/assets/img/white.png" alt="logo" style="height: 130px" />
+                <div class="ml-lg-5">
+                  <span class="text-white kr-font-light" style="font-size: larger"> SSAFY 6기 서울 8반 2조</span>
+                  <br />
+                  <span class="text-white kr-font-bold"> Final Project 시연</span>
+                  <br />
+                  <span class="kr-font-fine" style="color: lightgray; margin-top: 150px"
+                    >HappyHouse 서비스는 사용자들이 한층 더 간편하게 주택 거래가 등을 비교 및 검색하도록 지원 블라블라</span
+                  >
+                  <!-- <h1 class="display-2 text-white">
                   Happy House
                   <span class="display-4 text-white">final project runthrough</span>
-                </h1>
-                <p class="lead text-white">추가기능<br />1.펀드 기능 결합</p>
-                <div class="btn-wrapper">
+                </h1> -->
+
+                  <div class="text-muted text-center mb-3">
+                    <small>Sign in with</small>
+                  </div>
+                  <div class="btn-wrapper text-center">
+                    <base-button type="neutral">
+                      <img slot="icon" src="img/icons/common/github.svg" />
+                      Gitlab
+                    </base-button>
+
+                    <base-button type="neutral">
+                      <img slot="icon" src="img/icons/common/google.svg" />
+                      Google
+                    </base-button>
+                  </div>
+                </div>
+                <div class="btn-wrapper" style="margin: 50px">
                   <!-- <base-button tag="a" href="https://demos.creative-tim.com/argon-design-system/docs/components/alerts.html" class="mb-3 mb-sm-0" type="info" icon="fa fa-code"> Components </base-button>
                   <base-button tag="a" href="https://www.creative-tim.com/product/argon-design-system" class="mb-3 mb-sm-0" type="white" icon="ni ni-cloud-download-95"> Download HTML </base-button> -->
-                  <base-button tag="a" href="/user/login" class="mb-3 mb-sm-0" type="warning" icon="ni ni-active-40"> Get Started </base-button>
+                  <base-button tag="a" href="/user/signup" class="mb-3 mb-sm-0" type="warning" icon="ni ni-active-40"> Get Started </base-button>
                 </div>
               </div>
             </div>

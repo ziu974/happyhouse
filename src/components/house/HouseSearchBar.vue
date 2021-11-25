@@ -1,6 +1,6 @@
 <template>
   <b-container class="bv-example-row bv-example-row-flex-cols">
-    <card shadow>
+    <card shadow class="kr-font-regular">
       <b-row class="mt-2 mb-4 text-center" align-h="center"><h3 style="color: #8898aa">Search Options</h3></b-row>
       <b-row class="mt-4 mb-4 text-center">
         <!-- ? https://bootstrap-vue.org/docs/components/form-select -->
@@ -15,15 +15,15 @@
       <!-- <div> -->
       <b-row class="mt-4 mb-4" align-h="center">
         <b-col cols="4" align-self="center">
-          <base-radio v-model="radios.radio" name="dongRadio" :disabled="radioDisabled">동별검색</base-radio>
+          <base-radio v-model="radios.radio" name="dongRadio" :disabled="radioDisabled" class="kr-font-bold">동별검색</base-radio>
         </b-col>
         <b-col>
           <b-form-select v-model="dongCode" :options="dongs" @change="filterHouseByDong" @input="radios.radio = 'dongRadio'"></b-form-select>
         </b-col>
       </b-row>
-      <b-row class="mt-4 mb-4" align-h="center">
+      <b-row class="mt-4 mb-4 kr-font-fine" align-h="center">
         <b-col cols="4" align-self="center">
-          <base-radio v-model="radios.radio" name="priceRadio">가격범위</base-radio>
+          <base-radio v-model="radios.radio" name="priceRadio" :disabled="radioDisabled" class="kr-font-bold">가격범위</base-radio>
         </b-col>
         <b-col class="sm-3">
           <!-- :value="{ min: this.minP, max: this.maxP }" -->
@@ -44,11 +44,15 @@
             <small>최저가: {{ this.sliderVal[0] }} | 최고가: {{ this.sliderVal[1] }} (만원)</small>
             <!-- <small>Value (만원): {{ this.$refs.priceSlider }} ~ {{}}</small> -->
           </div>
+          <div class="text-left text-muted" v-else>
+            <small>(지역을 먼저 선택하세요)</small>
+            <!-- <small>Value (만원): {{ this.$refs.priceSlider }} ~ {{}}</small> -->
+          </div>
         </b-col>
       </b-row>
       <b-row class="mt-4 mb-4" align-h="center">
         <b-col cols="4" align-self="center">
-          <base-radio v-model="radios.radio" name="aptRadio">아파트명</base-radio>
+          <base-radio v-model="radios.radio" name="aptRadio" :disabled="radioDisabled" class="kr-font-bold">아파트명</base-radio>
         </b-col>
         <!-- <b-col></b-col> -->
         <b-col class="">
@@ -63,10 +67,10 @@
       </b-row>
 
       <b-row>
-        <b-col
+        <!-- <b-col
           >가격정렬
           <base-switch v-model="switches.sortOn"></base-switch>
-        </b-col>
+        </b-col> -->
         <b-col class="sm-3" align="right">
           <b-button variant="outline-warning" @click="clearOptions">clear</b-button>
         </b-col>

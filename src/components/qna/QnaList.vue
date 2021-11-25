@@ -12,7 +12,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-table striped hover :items="posts" :fields="fields" @row-clicked="moveView" show-empty>
+        <b-table hover :items="posts" :fields="fields" @row-clicked="moveView" show-empty class="kr-font-light">
           <template #cell(answered)="data">
             <badge type="secondary" v-if="data.item.answered">answered</badge>
             <badge type="default" v-else>waiting</badge>
@@ -20,6 +20,7 @@
             <b-button size="sm"> Details{{ row.No }} </b-button> -->
           </template>
         </b-table>
+        <hr />
         <b-pagination
           v-model="currentPage"
           :total-rows="totalCount"

@@ -21,13 +21,16 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                   <a href="#">
-                    <img v-lazy="'../img/theme/team-4-800x800.jpg'" class="rounded-circle" />
+                    <img v-lazy="`../img/default-avatar.jpg`" class="rounded-circle" />
                   </a>
                 </div>
               </div>
               <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
                 <div class="card-profile-actions py-4 mt-lg-0">
-                  <b-button v-if="isModify" size="sm" variant="primary" href="#" class="mr-1" @click="sendModifyInfo">정보수정완료</b-button>
+                  <div v-if="isModify">
+                    <base-button size="sm" type="warning" href="#" class="mr-2" @click="sendModifyInfo">정보수정완료</base-button>
+                    <base-button outline size="sm" type="default" href="#" @click="isModify = false">취소</base-button>
+                  </div>
                   <div v-else>
                     <base-button type="primary" size="sm" class="mr-2" @click="modifyInfo">정보수정</base-button>
                     <!-- <b-button variant="primary" href="#" class="mr-1" >정보수정</b-button> -->
@@ -39,7 +42,7 @@
               </div>
               <div class="col-lg-4 order-lg-1">
                 <div class="card-profile-stats d-flex justify-content-center">
-                  <span class="heading">{{ userInfo }}</span>
+                  <!-- <span class="heading">{{ userInfo }}</span> -->
                   <div v-if="userInfo.joindate">
                     <span class="heading">{{ userInfo.joindate.slice(0, 10).replaceAll("-", "/") }}</span>
                     <span class="description">Member Since</span>
@@ -52,15 +55,27 @@
                 </div>
               </div>
             </div>
-            <div class="text-center mt-5">
+            <div class="text-center mt-5 kr-font-regular">
               <h3>
                 {{ userInfo.name }}
                 <span class="font-weight-light">, 27</span>
               </h3>
 
               <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>ID: {{ userInfo.userid }}</div>
-              <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>Email: {{ userInfo.email }}</div>
-              <div><i class="ni education_hat mr-2"></i>Tel: {{ userInfo.tel }}</div>
+              <div v-if="isModify" class="kr-font-regular mt-5" style="padding-left: 250px; padding-right: 250px">
+                <base-input v-model="modifiedInfo.email" :placeholder="userInfo.email" addon-left-icon="ni ni-email-83"></base-input>
+                <base-input v-model="modifiedInfo.tel" :placeholder="userInfo.tel" addon-left-icon="fa fa-phone"></base-input>
+                <base-input
+                  v-model="modifiedInfo.userpwd"
+                  :placeholder="userInfo.userpwd"
+                  type="password"
+                  addon-left-icon="ni ni-lock-circle-open"
+                ></base-input>
+              </div>
+              <div v-else>
+                <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>Email: {{ userInfo.email }}</div>
+                <i class="ni education_hat mr-2"> </i>Tel: {{ userInfo.tel }}
+              </div>
             </div>
             <div class="mt-5 py-5 border-top text-center">
               <div class="row justify-content-center">
@@ -124,6 +139,11 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
   },
+  watch: {
+    userInfo: function () {
+      if (!this.userInfo) this.$router.push({ name: "Home" });
+    },
+  },
   methods: {
     ...mapActions(memberStore, ["updateUserInfo", "deleteUserAccount", "logout"]),
     modifyInfo() {
@@ -133,7 +153,8 @@ export default {
         userpwd: this.userInfo.userpwd,
         email: this.userInfo.email,
         tel: this.userInfo.tel,
-        // 관심지역은 그대로
+        // 관심지역, 가입일은 그대로
+        joindate: this.userInfo.joindate,
         interest_code: this.userInfo.interest_code,
       };
       this.isModify = true;

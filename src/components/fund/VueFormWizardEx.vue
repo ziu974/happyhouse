@@ -128,6 +128,7 @@ export default {
   data() {
     return {
       isModify: true,
+      isFailError: false,
       userInfo: {
         userid: "",
         name: "",
@@ -146,8 +147,13 @@ export default {
     FormWizard,
     TabContent,
   },
+  watch: {
+    isSignUpError: function () {
+      this.isFailError = this.isSignUpError;
+    },
+  },
   methods: {
-    ...mapActions("memberStore", ["createUserAccount"]),
+    ...mapActions("memberStore", ["createUserAccount", "isSignUpError"]),
     async signUp() {
       console.log(this.userInfo);
       await this.createUserAccount(this.userInfo);

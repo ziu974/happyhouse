@@ -1,10 +1,10 @@
 <template>
-  <b-container class="bv-example-row mt-3">
-    <b-row>
+  <b-container class="mt-3 mb-5">
+    <!-- <b-row>
       <b-col>
         <b-alert show><h3>글작성</h3></b-alert>
       </b-col>
-    </b-row>
+    </b-row> -->
     <board-write-form type="register" :userid="userInfo.userid" />
   </b-container>
 </template>

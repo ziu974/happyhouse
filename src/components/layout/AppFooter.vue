@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer has-cards">
+  <footer class="footer has-cards" :class="{ bgcol: navColorSetting }">
     <!-- <div class="container container-lg"></div> -->
     <div class="container my-md">
       <hr />
@@ -44,6 +44,32 @@ export default {
       year: new Date().getFullYear(),
     };
   },
+  computed: {
+    navColorSetting: function () {
+      console.log(this.$route.path);
+      // let setting = "";
+      // if (this.$route.path === "/") return setting;
+      // else if (this.$route.path.includes("/qna/write") || this.$route.path.includes("/qna/update") || this.$route.path === "/profile") return "";
+      // else return "primary";
+
+      if (this.$route.path === "/") return false;
+      else if (this.$route.path.includes("/write") || this.$route.path.includes("/update") || this.$route.path === "/mypage") return true;
+      else return false;
+    },
+  },
 };
 </script>
-<style></style>
+<style>
+.footer.bgcol.has-cards {
+  background: rgb(140, 157, 212);
+}
+
+.footer.has-cards {
+  /* background: transparent; */
+  bottom: 0;
+  height: 270px;
+  margin-top: 70px;
+  /* position: fixed; */
+  width: 100%;
+}
+</style>

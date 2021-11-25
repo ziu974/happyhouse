@@ -1,9 +1,8 @@
 <template>
   <!-- TODO "apts" -> "houses"(vuex의 state에서의 이름!) 으로 -->
-  <b-container v-if="filteredHouses && filteredHouses.length != 0" class="bv-example-row mt-3">
+  <b-container v-if="filteredHouses && filteredHouses.length != 0" class="mt-3">
     <!-- "house-list-row"자식 component에게 주택data를, Object 타입으로 전달할 것이므로, v-bind(":")필요 => ':house' 부분-->
     <!-- (이제 HouseListRow.vue를 가보자) -->
-
     <b-list-group id="my-table" class="mb-4" style="list-style: none">
       <!-- <li id="my-table"> -->
       <house-list-row v-for="(house, index) in subList" :key="index" :house="house" />
@@ -21,7 +20,11 @@
   </b-container>
   <b-container v-else class="bv-example-row mt-3">
     <b-row>
-      <b-col><base-alert outline type="default" align="center" show style="background-color: #8898aa">No match</base-alert></b-col>
+      <b-col
+        ><base-alert class="kr-font-light" outline type="default" align="center" show style="background-color: #8898aa"
+          >검색결과 없음</base-alert
+        ></b-col
+      >
     </b-row>
   </b-container>
 </template>
